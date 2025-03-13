@@ -1,36 +1,38 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+
+// ** Utils
+import { ThemeToggle, useTheme } from '../utils/themeToggler';
+
+// ** Third Party Packages
 import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
   Box, 
-  useTheme as useMuiTheme,
-  useMediaQuery,
-  IconButton,
-  Drawer,
   List,
+  Stack,
+  Slide,
+  Drawer,
+  AppBar, 
+  Avatar,
+  Button,
+  Divider,
+  Toolbar, 
   ListItem,
+  Container,
+  IconButton,
+  Typography, 
   ListItemText,
   ListItemIcon,
-  Avatar,
-  Stack,
-  Button,
-  Container,
-  Divider,
-  Slide
+  useMediaQuery,
+  useTheme as useMuiTheme,
 } from '@mui/material';
-import { ThemeToggle, useTheme } from '../utils/themeToggler';
 import MenuIcon from '@mui/icons-material/Menu';
 import CodeIcon from '@mui/icons-material/Code';
-import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import EmailIcon from '@mui/icons-material/Email';
-import PersonIcon from '@mui/icons-material/Person';
-import Link from 'next/link';
-import Image from 'next/image';
+import SchoolIcon from '@mui/icons-material/School';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const navItems = [
   { name: 'Skills', icon: <CodeIcon />, path: '#skills' },
