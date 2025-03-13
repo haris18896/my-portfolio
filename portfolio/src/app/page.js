@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import Header from "../components/Header";
 import { Box, Container, Typography } from "@mui/material";
 
 export default function Home() {

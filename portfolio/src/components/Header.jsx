@@ -21,7 +21,7 @@ import {
   Divider,
   Slide
 } from '@mui/material';
-import { ThemeToggle, useTheme } from '../../utils/themeToggler';
+import { ThemeToggle, useTheme } from '../utils/themeToggler';
 import MenuIcon from '@mui/icons-material/Menu';
 import CodeIcon from '@mui/icons-material/Code';
 import SchoolIcon from '@mui/icons-material/School';
