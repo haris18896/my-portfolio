@@ -9,6 +9,9 @@ export default function Home() {
     <main>
       <Header />
       <GitHub />
+      <GitHub />
+      <GitHub />
+      <GitHub />
     </main>
   );
 }
