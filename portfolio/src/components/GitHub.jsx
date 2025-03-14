@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 // ** Third Party Packages
+import axios from "axios";
 import { motion } from "framer-motion";
 import { Octokit } from "@octokit/rest";
 import GitHubCalendar from "react-github-calendar";
@@ -42,62 +43,74 @@ function GitHub() {
       try {
         setIsLoading(true);
 
-        // Use GitHub's GraphQL API to fetch pinned repositories
-        const graphqlWithAuth = graphql.defaults({
-          headers: {
-            authorization: `bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN || ""}`,
-          },
-        });
-
-        const query = `
+        // GitHub GraphQL API for pinned repositories
+        const response = await axios.post(
+          "https://api.github.com/graphql",
           {
-            user(login: "haris18896") {
-              pinnedItems(first: 6, types: REPOSITORY) {
-                nodes {
-                  ... on Repository {
-                    name
-                    description
-                    url
-                    primaryLanguage {
+            query: `{
+              user(login: "haris18896") {
+                pinnedItems(first: 6, types: REPOSITORY) {
+                  nodes {
+                    ... on Repository {
                       name
-                      color
+                      description
+                      url
+                      primaryLanguage {
+                        name
+                        color
+                      }
+                      stargazerCount
+                      forkCount
                     }
-                    stargazerCount
-                    forkCount
                   }
                 }
               }
-            }
+            }`,
+          },
+          {
+            headers: {
+              Authorization: `bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN || ""}`,
+            },
           }
-        `;
+        );
 
-        const { user } = await graphqlWithAuth(query);
+        const result = response.data;
 
-        // Transform the data to match the format expected by the component
-        const transformedData = user.pinnedItems.nodes.map((repo) => ({
-          name: repo.name,
-          description: repo.description,
-          html_url: repo.url,
-          language: repo.primaryLanguage ? repo.primaryLanguage.name : null,
-          languageColor: repo.primaryLanguage
-            ? repo.primaryLanguage.color
-            : null,
-          stargazers_count: repo.stargazerCount,
-          forks_count: repo.forkCount,
-        }));
+        if (result.data && result.data.user && result.data.user.pinnedItems) {
+          const transformedData = result.data.user.pinnedItems.nodes.map(
+            (repo) => ({
+              name: repo.name,
+              description: repo.description,
+              html_url: repo.url,
+              language: repo.primaryLanguage ? repo.primaryLanguage.name : null,
+              languageColor: repo.primaryLanguage
+                ? repo.primaryLanguage.color
+                : null,
+              stargazers_count: repo.stargazerCount,
+              forks_count: repo.forkCount,
+            })
+          );
 
-        setPinnedRepos(transformedData);
+          setPinnedRepos(transformedData);
+        } else {
+          throw new Error("Failed to fetch pinned repositories");
+        }
       } catch (error) {
         console.error("Error fetching pinned repositories:", error);
 
-        // Fallback to REST API if GraphQL fails (usually due to missing token)
-        const octokit = new Octokit();
-        const { data } = await octokit.repos.listForUser({
-          username: "haris18896",
-          sort: "updated",
-          per_page: 6,
-        });
-        setPinnedRepos(data);
+        // Fallback to REST API if GraphQL fails
+        try {
+          const octokit = new Octokit();
+          const { data } = await octokit.repos.listForUser({
+            username: "haris18896",
+            sort: "updated",
+            per_page: 6,
+          });
+          console.log("Fallback to regular repositories");
+          setPinnedRepos(data);
+        } catch (restError) {
+          console.error("Error fetching fallback repositories:", restError);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -243,7 +256,7 @@ function GitHub() {
                                 width: 10,
                                 height: 10,
                                 borderRadius: "50%",
-                                bgcolor: "primary.main",
+                                bgcolor: repo.languageColor || "primary.main",
                                 mr: 0.5,
                               }}
                             />

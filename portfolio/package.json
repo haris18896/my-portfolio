@@ -20,6 +20,7 @@
     "@octokit/rest": "^21.1.1",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.79.0",
+    "axios": "^1.8.3",
     "framer-motion": "^12.5.0",
     "lucide-react": "^0.479.0",
     "next": "15.2.2",
