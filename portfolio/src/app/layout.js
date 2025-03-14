@@ -1,4 +1,4 @@
-import { Inter, Pacifico, Montserrat } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { ThemeProvider } from "../utils/themeToggler";
 
 const montserrat = Montserrat({
