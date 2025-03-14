@@ -125,11 +125,7 @@ function GitHub() {
   };
 
   return (
-    <Container
-      id="github"
-      maxWidth="xl"
-      sx={{ mt: 4, px: { xs: 2, sm: 3, md: 4 } }}
-    >
+    <Container id="github" maxWidth="lg" sx={{ my: 4, px: { xs: 1, sm: 2 } }}>
       <motion.div
         ref={ref}
         initial="hidden"
@@ -147,7 +143,11 @@ function GitHub() {
           <Typography variant="h4" color="text.primary">
             GitHub
           </Typography>
-          <Typography sx={{ mt: 1 }} variant="h6" color="text.secondary">
+          <Typography
+            sx={{ mt: 1, textAlign: "center", px: 2 }}
+            variant="h6"
+            color="text.secondary"
+          >
             My open source contributions and projects
           </Typography>
         </Box>
@@ -174,6 +174,7 @@ function GitHub() {
           spacing={2}
           sx={{
             mt: 4,
+            paddingRight: 2,
             width: "100%",
             mx: "auto",
           }}
@@ -192,7 +193,7 @@ function GitHub() {
                     sx={{
                       height: "100%",
                       borderRadius: 4,
-                      backgroundColor: "background.paper",
+                      backgroundColor: "background.default",
                       transition: "all 0.3s ease",
                       "&:hover": {
                         boxShadow: 6,
