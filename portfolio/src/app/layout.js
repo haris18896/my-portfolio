@@ -1,4 +1,4 @@
-import { Montserrat } from "next/font/google";
+import { Inter, Pacifico, Montserrat } from "next/font/google";
 import { ThemeProvider } from "../utils/themeToggler";
 
 const montserrat = Montserrat({
@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${montserrat.variable}`}
     >
-      <body>
+      <body suppressHydrationWarning={true}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 
 // ** Third Party Packages
 import axios from "axios";
@@ -153,9 +153,19 @@ function GitHub() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" color="text.primary">
-            GitHub
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              mt: 2,
+            }}
+          >
+            <Typography variant="h4" color="text.primary" sx={{ mt: 2 }}>
+              GitHub
+            </Typography>
+          </Box>
           <Typography
             sx={{ mt: 1, textAlign: "center", px: 2 }}
             variant="h6"
