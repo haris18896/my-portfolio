@@ -172,6 +172,7 @@ function GitHub() {
             my: 4,
             width: "100%",
             overflow: "hidden",
+            px: { xs: 2, md: 0 },
           }}
         >
           <GitHubCalendar
