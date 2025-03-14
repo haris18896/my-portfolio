@@ -1,13 +1,6 @@
 import { Inter, Pacifico, Montserrat } from "next/font/google";
 import { ThemeProvider } from "../utils/themeToggler";
 
-const inter = Inter({ subsets: ["latin"] });
-const pacifico = Pacifico({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-pacifico",
-});
 const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
@@ -56,7 +49,7 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
       className={`${montserrat.variable}`}
     >
-      <body className={inter.className}>
+      <body>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

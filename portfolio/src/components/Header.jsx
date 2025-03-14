@@ -86,7 +86,7 @@ const Header = () => {
                 variant="h6" 
                 sx={{ 
                   fontFamily: '"Pacifico", cursive',
-                  fontWeight: 500,
+                  fontWeight: 600,
                   letterSpacing: '0.5px'
                 }}
               >
@@ -116,7 +116,6 @@ const Header = () => {
           {navItems.map((item) => (
             <ListItem 
               key={item.name}
-              button
               component={Link}
               href={item.path}
               onClick={toggleDrawer}
@@ -196,7 +195,7 @@ const Header = () => {
                 flexGrow: isMobile ? 1 : 0,
                 mr: isMobile ? 0 : 4,
                 fontFamily: '"Pacifico", cursive',
-                fontWeight: 500,
+                fontWeight: 600,
                 color: 'inherit',
                 textDecoration: 'none',
                 letterSpacing: '0.5px',
