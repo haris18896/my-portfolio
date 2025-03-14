@@ -127,7 +127,7 @@ function GitHub() {
   return (
     <Container
       id="github"
-      maxWidth="lg"
+      maxWidth="xl"
       sx={{ mt: 4, px: { xs: 2, sm: 3, md: 4 } }}
     >
       <motion.div
