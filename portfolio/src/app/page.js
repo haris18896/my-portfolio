@@ -52,10 +52,8 @@ async function fetchGitHubData() {
 }
 
 export default async function Home() {
-  const [pinnedRepos, twitterData, linkedInData] = await Promise.all([
-    fetchGitHubData(),
-  ]);
-
+  const [pinnedRepos] = await Promise.all([fetchGitHubData()]);
+  console.log(JSON.stringify(pinnedRepos, null, 2));
   return (
     <main>
       <Header />
@@ -63,3 +61,5 @@ export default async function Home() {
     </main>
   );
 }
+
+export const revalidate = 120;
