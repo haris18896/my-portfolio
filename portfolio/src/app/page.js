@@ -1,7 +1,10 @@
-import { Box, Container } from "@mui/material";
-import GitHub from "../components/GitHub";
-import Header from "../components/Header";
 import axios from "axios";
+
+// ** Components
+import GitHub from "@/components/GitHub";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import EmailForm from "@/components/emailForm";
 
 async function fetchGitHubData() {
   try {
@@ -53,11 +56,12 @@ async function fetchGitHubData() {
 
 export default async function Home() {
   const [pinnedRepos] = await Promise.all([fetchGitHubData()]);
-  console.log(JSON.stringify(pinnedRepos, null, 2));
   return (
     <main>
       <Header />
       <GitHub pinnedRepos={pinnedRepos} />
+      <EmailForm />
+      <Footer />
     </main>
   );
 }
