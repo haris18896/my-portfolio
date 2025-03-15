@@ -27,6 +27,7 @@
     "framer-motion": "^12.5.0",
     "leva": "^0.10.0",
     "loadash": "^1.0.0",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.479.0",
     "next": "15.2.2",
     "next-sanity": "^9.9.3",

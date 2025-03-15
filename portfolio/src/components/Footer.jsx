@@ -11,7 +11,7 @@ function Footer() {
         width: "100vw",
         py: 2,
         px: { xs: 1, sm: 4 },
-        backgroundColor: "background.paper",
+        backgroundColor: "background.dark",
         color: "text.primary",
         display: "flex",
         justifyContent: "flex-start",

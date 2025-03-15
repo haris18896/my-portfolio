@@ -31,8 +31,9 @@ const getThemeSettings = (mode) => {
               main: "#0d6efd",
             },
             background: {
-              paper: "#f5f5f5",
               default: "#ffffff",
+              paper: "#f5f5f5",
+              dark: "#f0f0f0",
             },
           }
         : {
@@ -46,6 +47,7 @@ const getThemeSettings = (mode) => {
             background: {
               default: "#161d2e",
               paper: "#171c28",
+              dark: "#141926",
             },
           }),
     },

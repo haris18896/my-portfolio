@@ -174,7 +174,7 @@ const Header = () => {
         color="default"
         elevation={0}
         sx={{
-          backgroundColor: muiTheme.palette.background.paper,
+          backgroundColor: muiTheme.palette.background.dark,
           backdropFilter: "blur(8px)",
           transition: "all 0.3s",
         }}
