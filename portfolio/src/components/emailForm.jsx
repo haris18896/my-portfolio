@@ -56,10 +56,10 @@ function EmailForm() {
   }, [play, stop]);
 
   return (
-    <Container id="contact" maxWidth="md">
+    <Container id="contact" maxWidth="md" sx={{ px: 3 }}>
       <Box
         sx={{
-          my: 3,
+          mb: 3,
           pb: 3,
           backgroundColor:
             mode === "dark" ? "background.paper" : "background.default",
@@ -147,7 +147,7 @@ function EmailForm() {
               {View}
             </Box>
           </Box>
-          <Box sx={{ px: { xs: 1, sm: 2 } }}>
+          <Box sx={{ px: 2 }}>
             <form noValidate autoComplete="off">
               <TextField
                 fullWidth
