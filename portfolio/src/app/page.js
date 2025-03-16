@@ -9,7 +9,7 @@ import Experience from "@/components/Experience";
 
 // ** Sanity
 import { client } from "@/sanity/lib/client";
-import { EXPERIENCE_QUERY } from "@/sanity/lib/queries";
+import { EXPERIENCE_QUERY, SKILLS_QUERY } from "@/sanity/lib/queries";
 
 async function fetchGitHubData() {
   try {
@@ -69,16 +69,27 @@ async function fetchExperienceData() {
   }
 }
 
+async function fetchSkillsData() {
+  try {
+    const skills = await client.fetch(SKILLS_QUERY);
+    return skills;
+  } catch (error) {
+    console.error("Error fetching skills data:", error);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const [pinnedRepos, experienceData] = await Promise.all([
+  const [pinnedRepos, skillsData, experienceData] = await Promise.all([
     fetchGitHubData(),
+    fetchSkillsData(),
     fetchExperienceData(),
   ]);
 
   return (
     <main>
       <Header />
-      <Experience experiences={experienceData} />
+      <Experience experiences={experienceData} skills={skillsData} />
       <GitHub pinnedRepos={pinnedRepos} />
       <EmailForm />
       <Footer />
