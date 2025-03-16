@@ -23,6 +23,7 @@ import ForkRightIcon from "@mui/icons-material/ForkRight";
 
 // ** Utils
 import { useTheme } from "../utils/themeToggler";
+import { containerVariants, itemVariants } from "@/utils/utils";
 
 function GitHub({ pinnedRepos }) {
   // ** Theme
@@ -32,24 +33,6 @@ function GitHub({ pinnedRepos }) {
     triggerOnce: true,
     threshold: 0.1,
   });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-    },
-  };
 
   return (
     <Box

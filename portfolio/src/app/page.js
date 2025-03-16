@@ -5,6 +5,11 @@ import GitHub from "@/components/GitHub";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import EmailForm from "@/components/emailForm";
+import Experience from "@/components/Experience";
+
+// ** Sanity
+import { client } from "@/sanity/lib/client";
+import { EXPERIENCE_QUERY } from "@/sanity/lib/queries";
 
 async function fetchGitHubData() {
   try {
@@ -54,11 +59,26 @@ async function fetchGitHubData() {
   }
 }
 
+async function fetchExperienceData() {
+  try {
+    const experience = await client.fetch(EXPERIENCE_QUERY);
+    return experience;
+  } catch (error) {
+    console.error("Error fetching experience data:", error);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const [pinnedRepos] = await Promise.all([fetchGitHubData()]);
+  const [pinnedRepos, experienceData] = await Promise.all([
+    fetchGitHubData(),
+    fetchExperienceData(),
+  ]);
+
   return (
     <main>
       <Header />
+      <Experience experiences={experienceData} />
       <GitHub pinnedRepos={pinnedRepos} />
       <EmailForm />
       <Footer />
@@ -66,4 +86,4 @@ export default async function Home() {
   );
 }
 
-export const revalidate = 120;
+export const revalidate = 60;
