@@ -33,39 +33,46 @@ const Experience = ({ experiences }) => {
         justifyContent: "center",
       }}
     >
-      <motion.div
-        ref={ref}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        variants={containerVariants}
-        style={{ width: "100%" }}
-      >
-        <Typography
-          variant="h4"
-          align="center"
-          sx={{
-            px: 2,
-            fontWeight: "bold",
-            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
+      <Container id="github" maxWidth="lg" sx={{ my: 3, px: { xs: 0, sm: 2 } }}>
+        <motion.div
+          ref={ref}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          variants={containerVariants}
+          style={{ width: "100%" }}
         >
-          Professional Journey
-        </Typography>
-        <Typography
-          sx={{ textAlign: "center", px: 2 }}
-          variant="h6"
-          color="text.secondary"
-        >
-          My professional journey through my work experiences
-        </Typography>
-      </motion.div>
-      <Container
-        id="github"
-        maxWidth="lg"
-        sx={{ my: 3, px: { xs: 0, sm: 2 } }}
-      ></Container>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              mt: 2,
+            }}
+          >
+            <Typography
+              variant="h4"
+              align="center"
+              sx={{
+                mt: 2,
+                fontWeight: "bold",
+                background: `linear-gradient(135deg, #FFA500, #0d6efd)`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Professional Journey
+            </Typography>
+            <Typography
+              sx={{ textAlign: "center", px: 2 }}
+              variant="h6"
+              color="text.secondary"
+            >
+              My professional journey through my work experiences
+            </Typography>
+          </Box>
+        </motion.div>
+      </Container>
     </Box>
   );
 };

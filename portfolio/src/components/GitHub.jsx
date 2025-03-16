@@ -69,7 +69,17 @@ function GitHub({ pinnedRepos }) {
                 mt: 2,
               }}
             >
-              <Typography variant="h4" color="text.primary" sx={{ mt: 2 }}>
+              <Typography
+                variant="h4"
+                align="center"
+                sx={{
+                  mt: 2,
+                  fontWeight: "bold",
+                  background: `linear-gradient(135deg, #FFA500, #0d6efd)`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
                 GitHub
               </Typography>
             </Box>
