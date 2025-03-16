@@ -1,9 +1,9 @@
 "use client";
 import React, { useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
 
 // ** Third Party Components
 import { motion } from "framer-motion";
-import { useLottie } from "lottie-react";
 
 // ** MUI Components
 import {
@@ -19,41 +19,15 @@ import { useTheme } from "@/utils/themeToggler";
 // ** Animation
 import contactFormAnimation from "../../public/assets/lottie/contactForm.json";
 
+// Dynamically import Lottie with SSR disabled
+const Lottie = dynamic(
+  () => import("lottie-react").then((mod) => mod.default),
+  { ssr: false }
+);
+
 function EmailForm() {
   const { mode } = useTheme();
-
-  const defaultLottieOptions = {
-    animationData: contactFormAnimation,
-    loop: false,
-  };
-
-  const { View, play, stop } = useLottie(defaultLottieOptions);
   const lottieRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          play(); // Play the animation when it enters the viewport
-        } else {
-          stop(); // Optionally stop the animation when it leaves the viewport
-        }
-      },
-      {
-        threshold: 0.1, // Adjust this threshold as needed
-      }
-    );
-
-    if (lottieRef.current) {
-      observer.observe(lottieRef.current);
-    }
-
-    return () => {
-      if (lottieRef.current) {
-        observer.unobserve(lottieRef.current);
-      }
-    };
-  }, [play, stop]);
 
   return (
     <Container id="contact" maxWidth="md" sx={{ px: 3 }}>
@@ -144,7 +118,7 @@ function EmailForm() {
                 height: "auto",
               }}
             >
-              {View}
+              <Lottie animationData={contactFormAnimation} loop={false} />
             </Box>
           </Box>
           <Box sx={{ px: 2 }}>
