@@ -324,6 +324,7 @@ const Experience = ({ experiences, skills }) => {
 
   return (
     <Box
+      id="Work Experiences"
       component="div"
       sx={{
         width: "100vw",
