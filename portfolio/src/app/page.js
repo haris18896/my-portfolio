@@ -9,7 +9,12 @@ import Experience from "@/components/Experience";
 
 // ** Sanity
 import { client } from "@/sanity/lib/client";
-import { EXPERIENCE_QUERY, SKILLS_QUERY } from "@/sanity/lib/queries";
+import {
+  ACADEMIC_QUERY,
+  EXPERIENCE_QUERY,
+  PROJECTS_QUERY,
+  SKILLS_QUERY,
+} from "@/sanity/lib/queries";
 
 async function fetchGitHubData() {
   try {
@@ -79,12 +84,37 @@ async function fetchSkillsData() {
   }
 }
 
+async function fetchProjectsData() {
+  try {
+    const projects = await client.fetch(PROJECTS_QUERY);
+    return projects;
+  } catch (error) {
+    console.error("Error fetching projects data:", error);
+    return [];
+  }
+}
+
+async function fetchAcademicData() {
+  try {
+    const academic = await client.fetch(ACADEMIC_QUERY);
+    return academic;
+  } catch (error) {
+    console.error("Error fetching academic data:", error);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const [pinnedRepos, skillsData, experienceData] = await Promise.all([
-    fetchGitHubData(),
-    fetchSkillsData(),
-    fetchExperienceData(),
-  ]);
+  const [pinnedRepos, skillsData, experienceData, projectsData, academicData] =
+    await Promise.all([
+      fetchGitHubData(),
+      fetchSkillsData(),
+      fetchExperienceData(),
+      fetchProjectsData(),
+      fetchAcademicData(),
+    ]);
+
+  console.log("projectsData : ", JSON.stringify(projectsData));
 
   return (
     <main>

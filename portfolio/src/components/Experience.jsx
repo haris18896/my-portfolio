@@ -255,8 +255,8 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
               <Box
                 key={index}
                 sx={{
-                  width: 35,
-                  height: 35,
+                  width: 25,
+                  height: 25,
                   position: "relative",
                   transition: "transform 0.2s ease-in-out",
                   "&:hover": {
@@ -385,18 +385,15 @@ const Experience = ({ experiences, skills }) => {
                 gap: "1rem",
               }}
             >
-              {experiences?.map((experience, key) => {
-                console.log(key);
-                return (
-                  <Grid item key={key}>
-                    <ExperienceCard
-                      experience={experience}
-                      isDark={theme.palette.mode === "dark"}
-                      skills={skills}
-                    />
-                  </Grid>
-                );
-              })}
+              {experiences?.map((experience, key) => (
+                <Grid item key={key}>
+                  <ExperienceCard
+                    experience={experience}
+                    isDark={theme.palette.mode === "dark"}
+                    skills={skills}
+                  />
+                </Grid>
+              ))}
             </Grid>
           </Box>
         </motion.div>
