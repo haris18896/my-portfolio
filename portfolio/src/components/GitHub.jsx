@@ -39,13 +39,13 @@ function GitHub({ pinnedRepos }) {
       component="div"
       sx={{
         width: "100vw",
-        py: 2,
+        pb: 2,
         px: { xs: 1, sm: 4 },
 
         display: "flex",
       }}
     >
-      <Container id="github" maxWidth="lg" sx={{ my: 3, px: { xs: 0, sm: 2 } }}>
+      <Container id="github" maxWidth="lg" sx={{ mb: 3, px: { xs: 0, sm: 2 } }}>
         <motion.div
           ref={ref}
           initial="hidden"
