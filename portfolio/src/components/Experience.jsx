@@ -57,8 +57,7 @@ const Experience = ({ experiences }) => {
               }}
             >
               <Typography
-                variant="h3"
-                component="h2"
+                variant="h4"
                 align="center"
                 gutterBottom
                 sx={{
