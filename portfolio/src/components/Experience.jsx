@@ -59,7 +59,6 @@ const Experience = ({ experiences }) => {
               <Typography
                 variant="h4"
                 align="center"
-                gutterBottom
                 sx={{
                   fontWeight: "bold",
                   background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
