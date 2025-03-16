@@ -114,8 +114,6 @@ export default async function Home() {
       fetchAcademicData(),
     ]);
 
-  console.log("projectsData : ", JSON.stringify(projectsData));
-
   return (
     <main>
       <Header />
