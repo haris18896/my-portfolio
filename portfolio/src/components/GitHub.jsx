@@ -103,7 +103,7 @@ function GitHub({ pinnedRepos }) {
             sx={{
               display: "flex",
               justifyContent: "center",
-              my: 4,
+              my: 2,
               width: "100%",
               overflow: "hidden",
               px: { xs: 2, md: 0 },
@@ -121,7 +121,7 @@ function GitHub({ pinnedRepos }) {
             container
             spacing={2}
             sx={{
-              mt: 4,
+              mt: 2,
               paddingRight: 2,
               width: "100%",
               mx: "auto",
