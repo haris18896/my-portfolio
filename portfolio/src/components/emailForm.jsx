@@ -1,10 +1,11 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 // ** Third Party Components
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 
 // ** MUI Components
@@ -30,30 +31,31 @@ const Lottie = dynamic(
 
 function EmailForm() {
   const { mode } = useTheme();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   // ** Refs
   const lottieRef = useRef(null);
   const formRef = useRef(null);
 
-  // ** States
-  const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
+  // ** Form Hook
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
   });
 
   useEffect(() => {
     emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
   }, []);
 
-  // ** Handlers
-  const handleChange = ({ target: { name, value } }) => {
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setIsLoading(true);
 
     // Loading toast
@@ -64,9 +66,9 @@ function EmailForm() {
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
         {
-          from_name: form.name,
-          from_email: form.email,
-          message: form.message,
+          from_name: data.name,
+          from_email: data.email,
+          message: data.message,
           to_name: "Haris Ahmad",
           to_email: "haris18896@gmail.com",
         },
@@ -74,11 +76,7 @@ function EmailForm() {
       );
 
       setIsLoading(false);
-      setForm({
-        name: "",
-        email: "",
-        message: "",
-      });
+      reset();
 
       // Success toast
       toast.success("Message sent successfully!", {
@@ -218,18 +216,23 @@ function EmailForm() {
               noValidate
               ref={formRef}
               autoComplete="off"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
             >
               <TextField
                 fullWidth
                 label="Name"
-                name="name"
                 variant="outlined"
                 margin="normal"
                 required
-                value={form.name}
-                onChange={handleChange}
-                placeholder="John Doe"
+                error={!!errors.name}
+                helperText={errors.name?.message}
+                {...register("name", {
+                  required: "Name is required",
+                  minLength: {
+                    value: 4,
+                    message: "Name must be at least 4 characters",
+                  },
+                })}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
@@ -241,14 +244,19 @@ function EmailForm() {
               <TextField
                 fullWidth
                 label="Email"
-                name="email"
                 variant="outlined"
                 margin="normal"
                 required
                 type="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="john.doe@example.com"
+                error={!!errors.email}
+                helperText={errors.email?.message}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
@@ -260,15 +268,20 @@ function EmailForm() {
               <TextField
                 fullWidth
                 label="Message"
-                name="message"
                 variant="outlined"
                 margin="normal"
                 required
                 multiline
                 rows={4}
-                value={form.message}
-                onChange={handleChange}
-                placeholder="Hi, I'm interested in your services. Can you help me with my project?"
+                error={!!errors.message}
+                helperText={errors.message?.message}
+                {...register("message", {
+                  required: "Message is required",
+                  minLength: {
+                    value: 10,
+                    message: "Message must be at least 10 characters",
+                  },
+                })}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
