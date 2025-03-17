@@ -373,7 +373,7 @@ const Experience = ({ experiences, skills }) => {
 
             <Grid
               container
-              spacing={3}
+              spacing={2}
               sx={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
