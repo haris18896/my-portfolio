@@ -18,12 +18,10 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
   const [colorArrays, setColorArrays] = useState([]);
   const imgRef = useRef(null);
 
-  // Parse description into bullet points
   const descriptionPoints = experience?.company_description
     ? experience.company_description.split("-").filter((point) => point.trim())
     : [];
 
-  // Find matching skill logos
   const getSkillLogo = (skillName) => {
     const skillData = skills?.find((s) => s.skill === skillName);
     return skillData?.skill_logo;
@@ -41,11 +39,7 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
         console.error("Error extracting color:", error);
       }
     };
-
-    // Try to load immediately if image is cached
     loadImage();
-
-    // Also attach load event for when image loads
     const currentImg = imgRef.current;
     if (currentImg) {
       currentImg.addEventListener("load", loadImage);
@@ -56,7 +50,7 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
         currentImg.removeEventListener("load", loadImage);
       }
     };
-  }, [experience.company_logo]); // Re-run when logo URL changes
+  }, [experience.company_logo]);
 
   function rgb(values) {
     return typeof values === "undefined" || !values.length
