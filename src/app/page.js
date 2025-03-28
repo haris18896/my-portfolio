@@ -1,6 +1,7 @@
 import axios from "axios";
 
 // ** Components
+import Hero from "@/components/Hero";
 import GitHub from "@/components/GitHub";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -117,6 +118,7 @@ export default async function Home() {
   return (
     <main>
       <Header />
+      <Hero />
       <Experience experiences={experienceData} skills={skillsData} />
       <GitHub pinnedRepos={pinnedRepos} />
       <EmailForm />
