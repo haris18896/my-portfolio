@@ -36,14 +36,23 @@ import { useTheme } from "@/utils/themeToggler";
 
 // Meteor Animation Component
 const Meteors = ({ number }) => {
-  const meteors = [...Array(number)].map((_, index) => ({
-    id: index,
-    size: Math.floor(Math.random() * 20) + 10,
-    duration: Math.floor(Math.random() * 10) + 5,
-    delay: Math.random() * 20,
-    initialLeft: Math.random() * 100,
-    initialTop: Math.random() * 100,
-  }));
+  const [meteors, setMeteors] = useState([]);
+
+  // Only run this on the client side to prevent hydration errors
+  useEffect(() => {
+    const meteorData = [...Array(number)].map((_, index) => ({
+      id: index,
+      size: Math.floor(Math.random() * 20) + 10,
+      duration: Math.floor(Math.random() * 10) + 5,
+      delay: Math.random() * 20,
+      initialLeft: Math.random() * 100,
+      initialTop: Math.random() * 100,
+    }));
+
+    setMeteors(meteorData);
+  }, [number]);
+
+  if (meteors.length === 0) return null;
 
   return (
     <Box
@@ -91,7 +100,14 @@ const Meteors = ({ number }) => {
 // Animated Grid Component
 const AnimatedGrid = () => {
   const { mode } = useTheme();
-  const gridColor = mode === "dark" ? "primary.main" : "secondary.main";
+  const [isClient, setIsClient] = useState(false);
+
+  // Only render on client-side to prevent hydration errors
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
 
   return (
     <Box
@@ -124,10 +140,10 @@ const AnimatedGrid = () => {
                   opacity: [0.1, 0.2, 0.1],
                 }}
                 transition={{
-                  duration: 2 + Math.random() * 2,
+                  duration: 2 + (i % 3),
                   repeat: Infinity,
                   repeatType: "reverse",
-                  delay: Math.random() * 2,
+                  delay: (i % 5) * 0.1,
                 }}
               />
             </Grid>
@@ -155,10 +171,10 @@ const AnimatedGrid = () => {
                   opacity: [0.1, 0.2, 0.1],
                 }}
                 transition={{
-                  duration: 2 + Math.random() * 2,
+                  duration: 2 + (i % 4),
                   repeat: Infinity,
                   repeatType: "reverse",
-                  delay: Math.random() * 2,
+                  delay: (i % 6) * 0.15,
                 }}
               />
             </Grid>
@@ -167,6 +183,21 @@ const AnimatedGrid = () => {
       </Box>
     </Box>
   );
+};
+
+// Add a client-side wrapper component
+const ClientOnly = ({ children }) => {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) {
+    return null;
+  }
+
+  return children;
 };
 
 // SparklesText Component
@@ -392,14 +423,17 @@ const CodeWindow = ({ code }) => {
         <Box
           sx={{
             px: 3,
+            py: 2,
             fontFamily:
               "'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
             fontSize: "0.85rem",
             lineHeight: 1.7,
             letterSpacing: "-0.01em",
             position: "relative",
-            overflow: "auto",
-            maxHeight: "500px",
+            height: "auto",
+            overflowX: "auto",
+            overflowY: "hidden",
+            whiteSpace: "pre",
             color: "#fcfcfa", // Always light text
             // Monokai Pro inspired syntax highlighting (same for both themes)
             "& .token.punctuation": {
@@ -432,6 +466,13 @@ const CodeWindow = ({ code }) => {
             },
             "& .language-javascript": {
               color: "#fcfcfa", // Base text color always light
+            },
+            "& pre": {
+              margin: 0,
+            },
+            "& code": {
+              display: "inline-block",
+              minWidth: "100%",
             },
           }}
         >
@@ -546,8 +587,10 @@ const profile = {
       }}
     >
       {/* Background Effects */}
-      <AnimatedGrid />
-      <Meteors number={isSmScreen ? 10 : 5} />
+      <ClientOnly>
+        <AnimatedGrid />
+        <Meteors number={isSmScreen ? 10 : 5} />
+      </ClientOnly>
 
       {/* Gradient Overlay */}
       <Box
@@ -774,103 +817,88 @@ const profile = {
             </Box>
 
             {/* Floating badges - visible on all screen sizes */}
+
             <Box
+              component={motion.div}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.2 }}
               sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 2,
-                mt: { xs: 4, lg: 0 },
+                position: "absolute",
+                left: { xs: "5.5rem", lg: "5.5rem" },
+                top: { xs: "-2rem", lg: "2.3rem" },
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                backdropFilter: "blur(10px)",
+                bgcolor: alpha("#9c27b0", 0.1),
+                border: 1,
+                borderColor: alpha("#9c27b0", 0.2),
+                color: "#b039c8",
+                animation: "float 4s ease-in-out infinite",
+                "@keyframes float": {
+                  "0%, 100%": { transform: "translateY(0)" },
+                  "50%": { transform: "translateY(-10px)" },
+                },
               }}
             >
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.2 }}
-                sx={{
-                  position: { lg: "absolute", xs: "relative" },
-                  left: { lg: "5.5rem", xs: "auto" },
-                  top: { lg: "2.3rem", xs: "auto" },
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  backdropFilter: "blur(10px)",
-                  bgcolor: alpha("#9c27b0", 0.1),
-                  border: 1,
-                  borderColor: alpha("#9c27b0", 0.2),
-                  color: "#b039c8",
-                  animation: isLgScreen
-                    ? "float 4s ease-in-out infinite"
-                    : "none",
-                  "@keyframes float": {
-                    "0%, 100%": { transform: "translateY(0)" },
-                    "50%": { transform: "translateY(-10px)" },
-                  },
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  <AutoFixHighIcon fontSize="small" />
-                  <Typography variant="body2">UI Magic</Typography>
-                </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <AutoFixHighIcon fontSize="small" />
+                <Typography variant="body2">UI Magic</Typography>
               </Box>
+            </Box>
 
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.5 }}
-                sx={{
-                  position: { lg: "absolute", xs: "relative" },
-
-                  left: { lg: "13.5rem", xs: "auto" },
-                  top: { lg: "30.3rem", xs: "auto" },
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  backdropFilter: "blur(10px)",
-                  bgcolor: alpha("#2196f3", 0.1),
-                  border: 1,
-                  borderColor: alpha("#2196f3", 0.2),
-                  color: "#42a5f5",
-                  animation: isLgScreen
-                    ? "float 5s ease-in-out infinite"
-                    : "none",
-                  animationDelay: "1s",
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  <CodeIcon fontSize="small" />
-                  <Typography variant="body2">Clean Code</Typography>
-                </Box>
+            <Box
+              component={motion.div}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.8 }}
+              sx={{
+                position: "absolute",
+                left: { xs: "60%", sm: "60%", md: "60%", lg: "25rem" },
+                top: { xs: "21rem", sm: "20rem", md: "20rem", lg: "16.6rem" },
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                backdropFilter: "blur(10px)",
+                bgcolor: alpha("#ff9800", 0.1),
+                border: 1,
+                borderColor: alpha("#ff9800", 0.2),
+                color: "#ffb74d",
+                animation: "float 6s ease-in-out infinite",
+                animationDelay: "2s",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <LightbulbIcon fontSize="small" />
+                <Typography variant="body2">Innovation</Typography>
               </Box>
+            </Box>
 
-              <Box
-                component={motion.div}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.8 }}
-                sx={{
-                  position: { lg: "absolute", xs: "relative" },
-                  left: { lg: "25.5rem", xs: "auto" },
-                  top: { lg: "18.3rem", xs: "auto" },
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  backdropFilter: "blur(10px)",
-                  bgcolor: alpha("#ff9800", 0.1),
-                  border: 1,
-                  borderColor: alpha("#ff9800", 0.2),
-                  color: "#ffb74d",
-                  animation: isLgScreen
-                    ? "float 6s ease-in-out infinite"
-                    : "none",
-                  animationDelay: "2s",
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  <LightbulbIcon fontSize="small" />
-                  <Typography variant="body2">Innovation</Typography>
-                </Box>
+            <Box
+              component={motion.div}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.5 }}
+              sx={{
+                position: "absolute",
+                left: { xs: "60%", sm: "75%", md: "75%", lg: "20rem" },
+                top: { xs: "4rem", sm: "6rem", md: "7rem", lg: "25.6rem" },
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                backdropFilter: "blur(10px)",
+                bgcolor: alpha("#2196f3", 0.1),
+                border: 1,
+                borderColor: alpha("#2196f3", 0.2),
+                color: "#42a5f5",
+                animation: "float 5s ease-in-out infinite",
+                animationDelay: "1s",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <CodeIcon fontSize="small" />
+                <Typography variant="body2">Clean Code</Typography>
               </Box>
             </Box>
           </Grid>

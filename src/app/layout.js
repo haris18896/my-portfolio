@@ -2,6 +2,7 @@ import "./global.css";
 
 import { Montserrat } from "next/font/google";
 import { ThemeProvider } from "../utils/themeToggler";
+import Toaster from "@/components/Toaster";
 
 const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
@@ -52,7 +53,10 @@ export default function RootLayout({ children }) {
       className={`${montserrat.variable}`}
     >
       <body suppressHydrationWarning={true}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
