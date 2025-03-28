@@ -423,7 +423,6 @@ const CodeWindow = ({ code }) => {
         <Box
           sx={{
             px: 3,
-            py: 2,
             fontFamily:
               "'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
             fontSize: "0.85rem",
@@ -494,12 +493,15 @@ const Hero = () => {
   const [code] = useState(`
 const profile = {
     name: 'Haris Ahmad',
-    title: 'Full-Stack Developer | Cloud Enthusiast | Problem Solver',
+    title: 'Full-Stack Developer | Mobile & Web Developer | Data Analyst',
     skills: [
-        'React', 'NextJS', 'Redux', 'Express',
-        'MySQL', 'MongoDB', 'Docker', 'AWS', 'TypeScript',
-        'GraphQL', 'Git', 'Linux'
+        'Reac Native', 'NextJS', 'React JS', 'Redux',  'Express',
+        'MySQL', 'MongoDB', 'Docker', 'PostgreSQL', 'TypeScript',
+        'Material UI', 'Tailwind CSS', 'Google Map', 'SASS',
+        'Python', 'Django', 'Matplotlib', 'Seaborn', 'Pandas',
+        'Sanity', 'GraphQL', 'Git', 'Firebase', 'Stripe', 'Paypal'
     ],
+    
     hardWorker: true,
     quickLearner: true,
     problemSolver: true,
@@ -509,14 +511,14 @@ const profile = {
             this.hardWorker &&
             this.problemSolver &&
             this.skills.length >= 5 &&
-            this.yearsOfExperience >= 3
+            this.yearsOfExperience >= 5
         );
     }
 };`);
 
   const words = [
-    "Full-Stack Developer & UI/UX Enthusiast",
-    "JavaScript & React Developer",
+    "Full-Stack Developer",
+    "React & NextJS Developer",
     "Front-end & Back-end Specialist",
     "Mobile & Web Development Expert",
   ];
@@ -788,8 +790,6 @@ const profile = {
                 gap: 2,
               }}
             >
-              {/* Learn More Button */}
-
               {/* Resume Button */}
               <Button
                 variant="outlined"
@@ -882,7 +882,7 @@ const profile = {
               transition={{ duration: 0.5, delay: 1.5 }}
               sx={{
                 position: "absolute",
-                left: { xs: "60%", sm: "75%", md: "75%", lg: "20rem" },
+                left: { xs: "55%", sm: "75%", md: "75%", lg: "20rem" },
                 top: { xs: "4rem", sm: "6rem", md: "7rem", lg: "25.6rem" },
                 px: 2,
                 py: 1,
