@@ -126,7 +126,7 @@ export default async function Home() {
         <Hero />
         <Skills skills={skillsData} />
         <Experience experiences={experienceData} skills={skillsData} />
-        {/* <Projects projects={projectsData} /> */}
+        <Projects projects={projectsData} />
         <GitHub pinnedRepos={pinnedRepos} />
         <EmailForm />
         <Footer />
