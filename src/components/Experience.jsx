@@ -8,13 +8,14 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 // ** MUI
-import { styled, useTheme } from "@mui/material/styles";
-import { Box, Container, Typography, Grid } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Box, Container, Typography, Grid, alpha } from "@mui/material";
 
 // ** Utils
 import { containerVariants } from "@/utils/utils";
 
 const ExperienceCard = ({ experience, isDark, skills }) => {
+  const muiTheme = useTheme();
   const [colorArrays, setColorArrays] = useState([]);
   const imgRef = useRef(null);
 
@@ -38,6 +39,14 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
     }
   };
 
+  // Helper function to properly handle image URLs
+  const getImageUrl = (logo) => {
+    if (!logo) return null;
+    if (typeof logo === "string") return logo;
+    if (logo.asset && logo.asset.url) return logo.asset.url;
+    return null;
+  };
+
   useEffect(() => {
     const loadImage = () => {
       try {
@@ -49,18 +58,18 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
           } catch (colorError) {
             console.warn("ColorThief error:", colorError);
             // Fallback colors when CORS prevents color extraction
-            setColorArrays([66, 82, 110]); // Fallback to a nice blue-gray
+            setColorArrays([47, 61, 86]); // Dark blue fallback
           }
         }
       } catch (error) {
         console.error("Error extracting color:", error);
-        setColorArrays([66, 82, 110]); // Fallback color
+        setColorArrays([47, 61, 86]); // Fallback color for dark mode
       }
     };
 
     const handleImageError = () => {
       console.warn("Image failed to load properly");
-      setColorArrays([66, 82, 110]); // Fallback color
+      setColorArrays([47, 61, 86]); // Fallback color
     };
 
     loadImage();
@@ -84,13 +93,6 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
       : `linear-gradient(rgba(${values.join(", ")}, 0.85), rgba(${values.join(", ")}, 0.95))`;
   }
 
-  const getImageUrl = (logo) => {
-    if (!logo) return null;
-    if (typeof logo === "string") return logo;
-    if (logo.asset && logo.asset.url) return logo.asset.url;
-    return null;
-  };
-
   const formatDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
@@ -101,15 +103,16 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
     <Box
       sx={{
         position: "relative",
-        bgcolor: isDark ? "#171c28" : "rgb(255, 255, 255)",
+        // bgcolor: isDark ? "#171c28" : "rgb(255, 255, 255)",
         boxShadow: "rgba(0, 0, 0, 0.2) 0px 10px 30px -15px",
         borderRadius: "10px",
         border: "1px solid rgba(211, 211, 211, 0.397)",
-        transition: "box-shadow 0.3s ease-in-out",
+        transition: "all 0.3s ease-in-out",
         "&:hover": {
           boxShadow: isDark
             ? "rgba(211, 211, 211, 0.2) 0px 20px 30px -10px"
             : "rgba(0, 0, 0, 0.2) 0px 20px 30px -10px",
+          transform: "translateY(-5px)",
         },
       }}
     >
@@ -126,24 +129,29 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
           position: "relative",
           width: "100%",
           background: rgb(colorArrays),
+          overflow: "hidden",
         }}
       >
+        {/* Background pattern for visual interest */}
         <Box
           sx={{
             position: "absolute",
-
-            height: "11rem",
             top: 0,
             left: 0,
-            width: "100%",
-            borderRadius: "10px 10px 0 0",
+            right: 0,
+            bottom: 0,
+            opacity: 0.05,
+            backgroundImage: `radial-gradient(circle at 25px 25px, #ffffff 2%, transparent 0%), 
+              radial-gradient(circle at 75px 75px, #ffffff 2%, transparent 0%)`,
+            backgroundSize: "100px 100px",
+            zIndex: 1,
           }}
         />
 
         <Box
           sx={{
             position: "absolute",
-            background: "transparent",
+            backdropFilter: "blur(5px)",
             height: "9rem",
             top: 0,
             left: 0,
@@ -151,6 +159,7 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            zIndex: 2,
           }}
         >
           <Typography
@@ -164,26 +173,35 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",
+              textShadow: "0 2px 4px rgba(0,0,0,0.3)",
             }}
           >
             {experience.company_name}
           </Typography>
         </Box>
-
+      </Box>
+      {/* Company logo container - positioned to overlap the bottom of the header */}
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          mt: "-4rem",
+          mb: "1rem",
+          zIndex: 10,
+        }}
+      >
         <Box
           sx={{
-            position: "absolute",
             width: { xs: "6.5rem", md: "8rem" },
             height: { xs: "6.5rem", md: "8rem" },
-            top: "7rem",
-            left: 0,
-            right: 0,
-            marginLeft: "auto",
-            marginRight: "auto",
             borderRadius: "50%",
             overflow: "hidden",
             boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.3)",
-            bgcolor: "grey.200",
+            bgcolor: "grey.200", // Fallback background color
+            border: `3px solid ${isDark ? "#171c28" : "#ffffff"}`,
+            padding: "3px", // Creates a nice padding effect within the border
           }}
         >
           <img
@@ -195,19 +213,50 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              borderRadius: "50%",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              transition: "transform 0.5s ease",
             }}
             onError={(e) => {
-              console.warn("Image failed to load:", e);
-              // If the image fails to load, provide a fallback or placeholder
+              console.warn(
+                "Company image failed to load:",
+                experience.company_name
+              );
               e.target.onerror = null; // Prevent infinite error loop
-              // Optional: set a placeholder image
-              // e.target.src = '/placeholder.png';
+
+              // Create a canvas element for a fallback with company initials
+              const canvas = document.createElement("canvas");
+              canvas.width = 200;
+              canvas.height = 200;
+              const ctx = canvas.getContext("2d");
+
+              // Set background color
+              ctx.fillStyle = muiTheme.palette.primary.main;
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+              // Add text
+              const initials = experience.company_name
+                .split(" ")
+                .map((word) => word[0])
+                .join("")
+                .substring(0, 2)
+                .toUpperCase();
+
+              ctx.fillStyle = "#FFFFFF";
+              ctx.font = "bold 100px Arial";
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+              ctx.fillText(initials, canvas.width / 2, canvas.height / 2);
+
+              // Replace the image source with the canvas data
+              e.target.src = canvas.toDataURL("image/png");
             }}
           />
         </Box>
       </Box>
 
-      <Box sx={{ padding: 2, mt: 2 }}>
+      <Box sx={{ padding: 1, mt: 0 }}>
         <Typography
           sx={{
             textAlign: "center",
@@ -290,12 +339,17 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
               <Box
                 key={index}
                 sx={{
-                  width: 25,
-                  height: 25,
+                  width: 30,
+                  height: 30,
                   position: "relative",
                   transition: "transform 0.2s ease-in-out",
                   "&:hover": {
-                    transform: "scale(1.1)",
+                    transform: "scale(1.2)",
+                  },
+                  "&:hover .skill-tooltip": {
+                    visibility: "visible",
+                    opacity: 1,
+                    transform: "translateX(-50%) translateY(0)",
                   },
                 }}
               >
@@ -314,46 +368,83 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
                       `Skill image failed to load for ${skill.skill}`
                     );
                     e.target.onerror = null; // Prevent infinite loops
-                    // Optional: Set a placeholder or hide the image
-                    e.target.style.display = "none";
+
+                    // Create canvas for skill initial
+                    const canvas = document.createElement("canvas");
+                    canvas.width = 100;
+                    canvas.height = 100;
+                    const ctx = canvas.getContext("2d");
+
+                    // Set background
+                    ctx.fillStyle = isDark ? "#333" : "#ddd";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // Add text
+                    const initial = skill.skill.charAt(0).toUpperCase();
+                    ctx.fillStyle = isDark ? "#fff" : "#333";
+                    ctx.font = "bold 50px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(initial, canvas.width / 2, canvas.height / 2);
+
+                    e.target.src = canvas.toDataURL("image/png");
                   }}
                 />
                 <Box
+                  className="skill-tooltip"
                   sx={{
                     position: "absolute",
-                    bottom: -25,
+                    bottom: -30,
                     left: "50%",
-                    transform: "translateX(-50%)",
+                    transform: "translateX(-50%) translateY(5px)",
                     backgroundColor: isDark
-                      ? "rgba(0, 0, 0, 0.8)"
-                      : "rgba(255, 255, 255, 0.9)",
-                    padding: "2px 6px",
+                      ? "rgba(0, 0, 0, 0.85)"
+                      : "rgba(255, 255, 255, 0.95)",
+                    padding: "3px 8px",
                     borderRadius: "4px",
                     visibility: "hidden",
                     opacity: 0,
-                    transition: "all 0.2s ease-in-out",
+                    transition:
+                      "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                     whiteSpace: "nowrap",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    zIndex: 1,
+                    boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
+                    zIndex: 10,
+                    pointerEvents: "none",
+                    border: `1px solid ${alpha(muiTheme.palette.primary.main, 0.2)}`,
                     "& span": {
                       fontSize: "0.75rem",
                       color: isDark ? "white" : "black",
+                      fontWeight: 500,
                     },
                   }}
                 >
                   <span>{skill.skill}</span>
                 </Box>
-                <style jsx global>{`
-                  ${Box}:hover > Box:last-child {
-                    visibility: visible;
-                    opacity: 1;
-                  }
-                `}</style>
               </Box>
             ) : null;
           })}
         </Box>
       </Box>
+
+      {/* Add subtle accent line at the bottom */}
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "60%",
+          height: 2,
+          background: `linear-gradient(to right, ${alpha(
+            muiTheme.palette.primary.main,
+            0
+          )}, ${alpha(muiTheme.palette.primary.main, 0.6)}, ${alpha(
+            muiTheme.palette.primary.main,
+            0
+          )})`,
+          borderRadius: 1,
+        }}
+      />
     </Box>
   );
 };
