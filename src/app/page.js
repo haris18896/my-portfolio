@@ -6,6 +6,7 @@ import GitHub from "@/components/GitHub";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Skills from "@/components/Skills";
+import Projects from "@/components/Projects";
 import EmailForm from "@/components/emailForm";
 import Experience from "@/components/Experience";
 
@@ -122,6 +123,7 @@ export default async function Home() {
       <Hero />
       <Skills skills={skillsData} />
       <Experience experiences={experienceData} skills={skillsData} />
+      <Projects projects={projectsData} />
       <GitHub pinnedRepos={pinnedRepos} />
       <EmailForm />
       <Footer />
