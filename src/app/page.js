@@ -110,6 +110,11 @@ async function fetchAcademicData() {
 }
 
 export default async function Home() {
+  // Add artificial delay to make the loading state more noticeable in development
+  if (process.env.NODE_ENV === "development") {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  }
+
   const [pinnedRepos, skillsData, experienceData, projectsData, academicData] =
     await Promise.all([
       fetchGitHubData(),
@@ -120,18 +125,29 @@ export default async function Home() {
     ]);
 
   return (
-    <Suspense fallback={<LoadingAnimation />}>
-      <main>
-        <Header />
-        <Hero />
+    <main>
+      <Header />
+      <Hero />
+
+      <Suspense fallback={<LoadingAnimation fullScreen={false} />}>
         <Skills skills={skillsData} />
+      </Suspense>
+
+      <Suspense fallback={<LoadingAnimation fullScreen={false} />}>
         <Experience experiences={experienceData} skills={skillsData} />
+      </Suspense>
+
+      <Suspense fallback={<LoadingAnimation fullScreen={false} />}>
         <Projects projects={projectsData} />
+      </Suspense>
+
+      <Suspense fallback={<LoadingAnimation fullScreen={false} />}>
         <GitHub pinnedRepos={pinnedRepos} />
-        <EmailForm />
-        <Footer />
-      </main>
-    </Suspense>
+      </Suspense>
+
+      <EmailForm />
+      <Footer />
+    </main>
   );
 }
 

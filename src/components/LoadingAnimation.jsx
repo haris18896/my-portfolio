@@ -4,17 +4,19 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 
-const LoadingAnimation = () => {
+const LoadingAnimation = ({ fullScreen = true }) => {
   return (
     <Box
       sx={{
-        position: "fixed",
+        position: fullScreen ? "fixed" : "relative",
         inset: 0,
         zIndex: 9999,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        backgroundColor: fullScreen ? "rgba(0, 0, 0, 0.8)" : "transparent",
+        minHeight: fullScreen ? "100vh" : "300px",
+        width: "100%",
       }}
     >
       <motion.div
