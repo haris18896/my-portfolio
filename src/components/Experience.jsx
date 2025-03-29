@@ -103,11 +103,13 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
     <Box
       sx={{
         position: "relative",
-        // bgcolor: isDark ? "#171c28" : "rgb(255, 255, 255)",
         boxShadow: "rgba(0, 0, 0, 0.2) 0px 10px 30px -15px",
         borderRadius: "10px",
         border: "1px solid rgba(211, 211, 211, 0.397)",
         transition: "all 0.3s ease-in-out",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
         "&:hover": {
           boxShadow: isDark
             ? "rgba(211, 211, 211, 0.2) 0px 20px 30px -10px"
@@ -256,7 +258,15 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
         </Box>
       </Box>
 
-      <Box sx={{ padding: 1, mt: 0 }}>
+      <Box
+        sx={{
+          padding: 1,
+          mt: 0,
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Typography
           sx={{
             textAlign: "center",
@@ -289,7 +299,7 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
             : formatDate(experience.exit_date)}
         </Typography>
 
-        <Box sx={{ px: 2 }}>
+        <Box sx={{ px: 2, flexGrow: 1 }}>
           {descriptionPoints.map((point, index) => (
             <Box
               key={index}
@@ -488,6 +498,7 @@ const Experience = ({ experiences, skills }) => {
               alignItems: "center",
               justifyContent: "center",
               mt: 2,
+              width: "100%",
             }}
           >
             <Typography
@@ -516,12 +527,16 @@ const Experience = ({ experiences, skills }) => {
               spacing={2}
               sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
-                gap: "1rem",
+                gridTemplateColumns: {
+                  xs: "repeat(auto-fit, minmax(290px, 1fr))",
+                  md: "repeat(2, 1fr)",
+                },
+                gap: "1.5rem",
+                width: "100%",
               }}
             >
               {experiences?.map((experience, key) => (
-                <Grid item key={key}>
+                <Grid item key={key} sx={{ height: "100%" }}>
                   <ExperienceCard
                     experience={experience}
                     isDark={theme.palette.mode === "dark"}
