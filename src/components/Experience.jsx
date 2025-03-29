@@ -23,8 +23,19 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
     : [];
 
   const getSkillLogo = (skillName) => {
-    const skillData = skills?.find((s) => s.skill === skillName);
-    return skillData?.skill_logo;
+    try {
+      const skillData = skills?.find((s) => s.skill === skillName);
+      if (!skillData) return null;
+
+      // Handle different possible formats of skill_logo
+      if (typeof skillData.skill_logo === "string") return skillData.skill_logo;
+      if (skillData.skill_logo?.asset?.url)
+        return skillData.skill_logo.asset.url;
+      return null;
+    } catch (error) {
+      console.error(`Error getting logo for skill ${skillName}:`, error);
+      return null;
+    }
   };
 
   useEffect(() => {
@@ -32,22 +43,37 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
       try {
         if (imgRef.current && imgRef.current.complete) {
           const colorThief = new ColorThief();
-          const color = colorThief.getColor(imgRef.current);
-          setColorArrays(color);
+          try {
+            const color = colorThief.getColor(imgRef.current);
+            setColorArrays(color);
+          } catch (colorError) {
+            console.warn("ColorThief error:", colorError);
+            // Fallback colors when CORS prevents color extraction
+            setColorArrays([66, 82, 110]); // Fallback to a nice blue-gray
+          }
         }
       } catch (error) {
         console.error("Error extracting color:", error);
+        setColorArrays([66, 82, 110]); // Fallback color
       }
     };
+
+    const handleImageError = () => {
+      console.warn("Image failed to load properly");
+      setColorArrays([66, 82, 110]); // Fallback color
+    };
+
     loadImage();
     const currentImg = imgRef.current;
     if (currentImg) {
       currentImg.addEventListener("load", loadImage);
+      currentImg.addEventListener("error", handleImageError);
     }
 
     return () => {
       if (currentImg) {
         currentImg.removeEventListener("load", loadImage);
+        currentImg.removeEventListener("error", handleImageError);
       }
     };
   }, [experience.company_logo]);
@@ -57,6 +83,13 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
       ? "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))"
       : `linear-gradient(rgba(${values.join(", ")}, 0.85), rgba(${values.join(", ")}, 0.95))`;
   }
+
+  const getImageUrl = (logo) => {
+    if (!logo) return null;
+    if (typeof logo === "string") return logo;
+    if (logo.asset && logo.asset.url) return logo.asset.url;
+    return null;
+  };
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -150,17 +183,25 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
             borderRadius: "50%",
             overflow: "hidden",
             boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.3)",
+            bgcolor: "grey.200",
           }}
         >
           <img
             crossOrigin="anonymous"
             ref={imgRef}
-            src={experience.company_logo}
+            src={getImageUrl(experience.company_logo)}
             alt={experience.company_name}
             style={{
               width: "100%",
               height: "100%",
               objectFit: "cover",
+            }}
+            onError={(e) => {
+              console.warn("Image failed to load:", e);
+              // If the image fails to load, provide a fallback or placeholder
+              e.target.onerror = null; // Prevent infinite error loop
+              // Optional: set a placeholder image
+              // e.target.src = '/placeholder.png';
             }}
           />
         </Box>
@@ -267,6 +308,14 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
                     height: "100%",
                     objectFit: "contain",
                     filter: isDark ? "brightness(0.9)" : "none",
+                  }}
+                  onError={(e) => {
+                    console.warn(
+                      `Skill image failed to load for ${skill.skill}`
+                    );
+                    e.target.onerror = null; // Prevent infinite loops
+                    // Optional: Set a placeholder or hide the image
+                    e.target.style.display = "none";
                   }}
                 />
                 <Box
