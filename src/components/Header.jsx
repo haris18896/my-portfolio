@@ -36,6 +36,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 
 const navItems = [
   { name: "Projects", icon: <CodeIcon />, path: "#projects" },
+  { name: "Skills", icon: <CodeIcon />, path: "#skills" },
   { name: "Work Experiences", icon: <WorkIcon />, path: "#experience" },
   { name: "GitHub", icon: <GitHubIcon />, path: "#github" },
   { name: "Contact Me", icon: <EmailIcon />, path: "#contact" },
