@@ -516,12 +516,16 @@ const Experience = ({ experiences, skills }) => {
               spacing={2}
               sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
-                gap: "1rem",
+                gridTemplateColumns: {
+                  xs: "repeat(auto-fit, minmax(290px, 1fr))",
+                  md: "repeat(2, 1fr)",
+                },
+                gap: "1.5rem",
+                width: "100%",
               }}
             >
               {experiences?.map((experience, key) => (
-                <Grid item key={key}>
+                <Grid item key={key} sx={{ height: "100%" }}>
                   <ExperienceCard
                     experience={experience}
                     isDark={theme.palette.mode === "dark"}

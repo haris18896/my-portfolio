@@ -16,14 +16,18 @@ import {
   Paper,
   alpha,
   Button,
+  Tooltip,
   Container,
   Typography,
+  IconButton,
   useMediaQuery,
 } from "@mui/material";
 import {
   Code as CodeIcon,
   Mouse as MouseIcon,
+  GitHub as GitHubIcon,
   Rocket as RocketIcon,
+  LinkedIn as LinkedInIcon,
   Download as DownloadIcon,
   Lightbulb as LightbulbIcon,
   AutoFixHigh as AutoFixHighIcon,
@@ -816,6 +820,74 @@ const profile = {
               >
                 Get Resume
               </Button>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  justifyContent: { xs: "center", sm: "flex-start" },
+                }}
+              >
+                <Tooltip title="Visit GitHub Profile">
+                  <IconButton
+                    component="a"
+                    href="https://github.com/haris18896"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    sx={{
+                      borderRadius: "50%",
+                      border: 1,
+                      borderColor: alpha(
+                        mode === "dark" ? "#ffffff" : "#000000",
+                        0.2
+                      ),
+                      color: "text.primary",
+                      transition: "all 0.3s",
+                      p: 2,
+                      "&:hover": {
+                        transform: "translateY(-3px)",
+                        borderColor: "primary.main",
+                        bgcolor: alpha(
+                          mode === "dark" ? "#ffffff" : "#000000",
+                          0.05
+                        ),
+                      },
+                    }}
+                  >
+                    <GitHubIcon />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Connect on LinkedIn">
+                  <IconButton
+                    component="a"
+                    href="https://www.linkedin.com/in/haris18896"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    sx={{
+                      borderRadius: "50%",
+                      border: 1,
+                      borderColor: alpha(
+                        mode === "dark" ? "#ffffff" : "#000000",
+                        0.2
+                      ),
+                      color: "text.primary",
+                      transition: "all 0.3s",
+                      p: 2,
+                      "&:hover": {
+                        transform: "translateY(-3px)",
+                        borderColor: "#0077b5", // LinkedIn blue
+                        color: "#0077b5",
+                        bgcolor: alpha("#0077b5", 0.05),
+                      },
+                    }}
+                  >
+                    <LinkedInIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
 
             {/* Floating badges - visible on all screen sizes */}
@@ -884,8 +956,8 @@ const profile = {
               transition={{ duration: 0.5, delay: 1.5 }}
               sx={{
                 position: "absolute",
-                left: { xs: "55%", sm: "75%", md: "75%", lg: "20rem" },
-                top: { xs: "4rem", sm: "6rem", md: "7rem", lg: "33.6rem" },
+                left: { xs: "55%", sm: "75%", md: "75%", lg: "22rem" },
+                top: { xs: "4rem", sm: "6rem", md: "7rem", lg: "34.6rem" },
                 px: 2,
                 py: 1,
                 borderRadius: 2,

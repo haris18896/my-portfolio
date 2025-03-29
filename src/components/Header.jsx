@@ -196,7 +196,7 @@ const Header = () => {
             <Typography
               variant="h6"
               component={Link}
-              href="/"
+              href="#hero"
               sx={{
                 flexGrow: isMobile ? 1 : 0,
                 mr: isMobile ? 0 : 4,
