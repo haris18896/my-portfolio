@@ -773,8 +773,10 @@ const profile = {
                 color="text.secondary"
                 sx={{ lineHeight: 1.8 }}
               >
-                JavaScript lover 🚀 | Creating beautiful web experiences 🔧 |
-                Crafting the future with code 💻✨
+                🚀 JavaScript & Python Enthusiast | Full-Stack & Mobile
+                Developer 🔧 | 💻 Crafting Scalable Web & Mobile Experiences
+                with React, Django & Next.js ✨ | 📊 Data Analyst | Turning Data
+                into Insights with Pandas, Seaborn & Matplotlib 📈
               </Typography>
             </Box>
 
@@ -856,7 +858,7 @@ const profile = {
               sx={{
                 position: "absolute",
                 left: { xs: "60%", sm: "60%", md: "60%", lg: "25rem" },
-                top: { xs: "21rem", sm: "20rem", md: "20rem", lg: "16.6rem" },
+                top: { xs: "26rem", sm: "22rem", md: "20rem", lg: "16.6rem" },
                 px: 2,
                 py: 1,
                 borderRadius: 2,
@@ -883,7 +885,7 @@ const profile = {
               sx={{
                 position: "absolute",
                 left: { xs: "55%", sm: "75%", md: "75%", lg: "20rem" },
-                top: { xs: "4rem", sm: "6rem", md: "7rem", lg: "25.6rem" },
+                top: { xs: "4rem", sm: "6rem", md: "7rem", lg: "33.6rem" },
                 px: 2,
                 py: 1,
                 borderRadius: 2,
