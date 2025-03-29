@@ -28,11 +28,17 @@ import { containerVariants, itemVariants } from "@/utils/utils";
 function GitHub({ pinnedRepos }) {
   // ** Theme
   const { mode } = useTheme();
+  const [isClient, setIsClient] = React.useState(false);
 
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  // Set isClient to true once component is mounted
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <Box
@@ -104,7 +110,7 @@ function GitHub({ pinnedRepos }) {
           >
             <GitHubCalendar
               username="haris18896"
-              colorScheme={mode === "light" ? "light" : "dark"}
+              colorScheme={!isClient || mode === "dark" ? "dark" : "light"}
               fontSize={12}
               blockSize={12}
             />

@@ -119,10 +119,10 @@ export const ThemeProvider = ({ children }) => {
   const prefersDarkMode =
     typeof window !== "undefined"
       ? window.matchMedia("(prefers-color-scheme: dark)").matches
-      : false;
+      : true; // Default to true for server rendering
 
-  // Initialize state with user preference or default to light
-  const [mode, setMode] = useState("light");
+  // Initialize state with user preference or default to dark
+  const [mode, setMode] = useState("dark");
 
   // Effect to set initial theme based on user preference or localStorage
   useEffect(() => {
@@ -131,6 +131,11 @@ export const ThemeProvider = ({ children }) => {
       setMode(savedMode);
     } else if (prefersDarkMode) {
       setMode("dark");
+      localStorage.setItem("themeMode", "dark");
+    } else {
+      // Even if user prefers light, default to dark for consistency
+      setMode("dark");
+      localStorage.setItem("themeMode", "dark");
     }
   }, [prefersDarkMode]);
 

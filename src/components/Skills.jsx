@@ -396,10 +396,16 @@ const Skills = ({ skills }) => {
   const { mode } = useTheme();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [organizedSkills, setOrganizedSkills] = useState({});
+  const [isClient, setIsClient] = useState(false);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  // Set isClient to true once component is mounted
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Organize skills by category (this would need to be customized based on your actual skills)
   useEffect(() => {
@@ -535,16 +541,18 @@ const Skills = ({ skills }) => {
 
   return (
     <Box
-      component="section"
       id="skills"
+      ref={ref}
       sx={{
-        py: { xs: 8, md: 12 },
-        position: "relative",
-        overflow: "hidden",
         background:
-          mode === "dark"
+          !isClient || mode === "dark"
             ? "linear-gradient(to bottom, #0a0f1f, #102030)"
             : "linear-gradient(to bottom, #f8f9fa, #e9ecef)",
+        color: mode === "dark" ? "#fff" : "#121212",
+        padding: { xs: "60px 16px", md: "80px 24px" },
+        position: "relative",
+        overflow: "hidden",
+        transition: "all 0.3s ease-in-out",
       }}
     >
       {/* Background decorative elements */}

@@ -461,10 +461,16 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
 
 const Experience = ({ experiences, skills }) => {
   const theme = useTheme();
+  const [isClient, setIsClient] = useState(false);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  // Set isClient to true once component is mounted
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <Box
@@ -539,7 +545,7 @@ const Experience = ({ experiences, skills }) => {
                 <Grid item key={key} sx={{ height: "100%" }}>
                   <ExperienceCard
                     experience={experience}
-                    isDark={theme.palette.mode === "dark"}
+                    isDark={!isClient || theme.palette.mode === "dark"}
                     skills={skills}
                   />
                 </Grid>

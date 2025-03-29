@@ -31,7 +31,13 @@ const Projects = ({ projects }) => {
   const [activeProject, setActiveProject] = useState(0);
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const [isHovering, setIsHovering] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const autoRotateIntervalRef = useRef(null);
+
+  // Set isClient to true once component is mounted
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Setup auto-rotation
   useEffect(() => {
@@ -88,11 +94,12 @@ const Projects = ({ projects }) => {
           alignItems: "center",
           justifyContent: "center",
           background:
-            mode === "dark"
+            !isClient || mode === "dark"
               ? "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)"
               : "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
           position: "relative",
           overflow: "hidden",
+          transition: "all 0.3s ease-in-out",
         }}
       >
         {/* Meteors background */}
@@ -170,11 +177,12 @@ const Projects = ({ projects }) => {
         minHeight: "100vh",
         position: "relative",
         background:
-          mode === "dark"
+          !isClient || mode === "dark"
             ? "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)"
             : "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
         py: 8,
         overflow: "hidden",
+        transition: "all 0.3s ease-in-out",
       }}
     >
       {/* Meteors background */}
