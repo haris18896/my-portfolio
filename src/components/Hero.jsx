@@ -867,7 +867,7 @@ const profile = {
                 <Tooltip title="Connect on LinkedIn">
                   <IconButton
                     component="a"
-                    href="https://www.linkedin.com/in/harisahmadkhan"
+                    href="https://www.linkedin.com/in/haris18896"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn"
