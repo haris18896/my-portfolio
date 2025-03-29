@@ -19,6 +19,8 @@ import {
   Container,
   Typography,
   useMediaQuery,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import {
   Code as CodeIcon,
@@ -29,6 +31,8 @@ import {
   AutoFixHigh as AutoFixHighIcon,
   ArrowForward as ArrowForwardIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
+  GitHub as GitHubIcon,
+  LinkedIn as LinkedInIcon,
 } from "@mui/icons-material";
 
 // ** Utils
@@ -790,6 +794,8 @@ const profile = {
                 display: "flex",
                 flexDirection: { xs: "column", sm: "row" },
                 gap: 2,
+                alignItems: { xs: "center", sm: "center" },
+                width: "100%",
               }}
             >
               {/* Resume Button */}
@@ -803,6 +809,8 @@ const profile = {
                   py: 1.5,
                   px: 3,
                   borderRadius: 3,
+                  width: { xs: "100%", sm: "auto" },
+                  maxWidth: { xs: "220px", sm: "none" },
                   borderColor: alpha(
                     mode === "dark" ? "#ffffff" : "#000000",
                     0.2
@@ -816,6 +824,75 @@ const profile = {
               >
                 Get Resume
               </Button>
+
+              {/* Social Media Icons */}
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  justifyContent: { xs: "center", sm: "flex-start" },
+                }}
+              >
+                <Tooltip title="Visit GitHub Profile">
+                  <IconButton
+                    component="a"
+                    href="https://github.com/haris18896"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    sx={{
+                      borderRadius: "50%",
+                      border: 1,
+                      borderColor: alpha(
+                        mode === "dark" ? "#ffffff" : "#000000",
+                        0.2
+                      ),
+                      color: "text.primary",
+                      transition: "all 0.3s",
+                      p: 1.5,
+                      "&:hover": {
+                        transform: "translateY(-3px)",
+                        borderColor: "primary.main",
+                        bgcolor: alpha(
+                          mode === "dark" ? "#ffffff" : "#000000",
+                          0.05
+                        ),
+                      },
+                    }}
+                  >
+                    <GitHubIcon />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Connect on LinkedIn">
+                  <IconButton
+                    component="a"
+                    href="https://www.linkedin.com/in/harisahmadkhan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    sx={{
+                      borderRadius: "50%",
+                      border: 1,
+                      borderColor: alpha(
+                        mode === "dark" ? "#ffffff" : "#000000",
+                        0.2
+                      ),
+                      color: "text.primary",
+                      transition: "all 0.3s",
+                      p: 1.5,
+                      "&:hover": {
+                        transform: "translateY(-3px)",
+                        borderColor: "#0077b5", // LinkedIn blue
+                        color: "#0077b5",
+                        bgcolor: alpha("#0077b5", 0.05),
+                      },
+                    }}
+                  >
+                    <LinkedInIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
 
             {/* Floating badges - visible on all screen sizes */}
