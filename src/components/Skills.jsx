@@ -180,7 +180,7 @@ const SkillCard = ({ skill, category }) => {
           transition: "all 0.3s ease",
           "&:hover": {
             boxShadow: `0 8px 16px ${alpha(getCategoryColor(category), 0.3)}`,
-            transform: "translateY(-4px)",
+            transform: "translateY(-1px)",
           },
         }}
       >
@@ -357,6 +357,7 @@ const CategorySection = ({ title, icon, skills, color }) => {
           overflow: "hidden",
           width: "100%",
           pb: 2,
+          py: 2,
         }}
       >
         <Box
