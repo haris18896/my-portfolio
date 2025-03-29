@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Suspense } from "react";
 
 // ** Components
 import Hero from "@/components/Hero";
@@ -9,6 +10,7 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import EmailForm from "@/components/emailForm";
 import Experience from "@/components/Experience";
+import LoadingAnimation from "@/components/LoadingAnimation";
 
 // ** Sanity
 import { client } from "@/sanity/lib/client";
@@ -118,16 +120,18 @@ export default async function Home() {
     ]);
 
   return (
-    <main>
-      <Header />
-      <Hero />
-      <Skills skills={skillsData} />
-      <Experience experiences={experienceData} skills={skillsData} />
-      <Projects projects={projectsData} />
-      <GitHub pinnedRepos={pinnedRepos} />
-      <EmailForm />
-      <Footer />
-    </main>
+    <Suspense fallback={<LoadingAnimation />}>
+      <main>
+        <Header />
+        <Hero />
+        <Skills skills={skillsData} />
+        <Experience experiences={experienceData} skills={skillsData} />
+        {/* <Projects projects={projectsData} /> */}
+        <GitHub pinnedRepos={pinnedRepos} />
+        <EmailForm />
+        <Footer />
+      </main>
+    </Suspense>
   );
 }
 
