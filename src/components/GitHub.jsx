@@ -44,7 +44,7 @@ function GitHub({ pinnedRepos }) {
     <Box
       component="div"
       sx={{
-        width: "100vw",
+        width: "100%",
         pb: 2,
         px: { xs: 1, sm: 4 },
 

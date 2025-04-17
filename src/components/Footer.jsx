@@ -8,7 +8,7 @@ function Footer() {
     <Box
       component="footer"
       sx={{
-        width: "100vw",
+        width: "100%",
         py: 2,
         px: { xs: 1, sm: 4 },
         backgroundColor: "background.dark",
