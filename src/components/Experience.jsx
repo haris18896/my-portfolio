@@ -477,7 +477,7 @@ const Experience = ({ experiences, skills }) => {
       id="Work Experiences"
       component="div"
       sx={{
-        width: "100vw",
+        width: "100%",
         py: 2,
         display: "flex",
         flexDirection: "column",
