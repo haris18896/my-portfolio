@@ -69,8 +69,8 @@ function EmailForm() {
           from_name: data.name,
           from_email: data.email,
           message: data.message,
-          to_name: "Haris Ahmad",
-          to_email: "haris18896@gmail.com",
+          to_name: process.env.NEXT_PUBLIC_AUTHOR_NAME,
+          to_email: process.env.NEXT_PUBLIC_AUTHOR_EMAIL,
         },
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
       );

@@ -5,8 +5,10 @@
 To install the application, follow these steps:
 
 1. **Fork the repository:**
+
    - Go to [my-portfolio](https://github.com/haris18896/my-portfolio) and click on the "Fork" button in the top right corner of the page.
    - Clone your forked repository to your local machine:
+
    ```bash
    git clone https://github.com/yourusername/my-portfolio.git
    cd my-portfolio
