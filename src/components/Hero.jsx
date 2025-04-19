@@ -496,7 +496,7 @@ const Hero = () => {
 
   const [code] = useState(`
 const profile = {
-    name: 'Haris Ahmad',
+    name: ${process.env.NEXT_PUBLIC_AUTHOR_NAME},
     title: 'Full-Stack Developer | Mobile & Web Developer | Data Analyst',
     skills: [
         'Reac Native', 'NextJS', 'React JS', 'Redux',  'Express',
@@ -535,12 +535,15 @@ const profile = {
   const handleResumeDownload = () => {
     try {
       // Path to your resume file - place your PDF in the public folder
-      const resumeUrl = "/Haris_Ahmad_Resume.pdf";
+      const resumeUrl = `/${process.env.NEXT_PUBLIC_AUTHOR_NAME?.replace(/\s+/g, "_")}_Resume.pdf`;
 
       // Create a temporary anchor element
       const link = document.createElement("a");
       link.href = resumeUrl;
-      link.setAttribute("download", "Haris_Ahmad_Resume.pdf");
+      link.setAttribute(
+        "download",
+        `${process.env.NEXT_PUBLIC_AUTHOR_NAME?.replace(/\s+/g, "_")}_Resume.pdf`
+      );
 
       // Append to the document temporarily
       document.body.appendChild(link);
@@ -578,7 +581,7 @@ const profile = {
       component="section"
       id="hero"
       sx={{
-        minHeight: "100vh",
+        minHeight: "calc(100vh - 64px)",
         display: "flex",
         alignItems: "center",
         position: "relative",
@@ -718,7 +721,7 @@ const profile = {
                     color: "transparent",
                   }}
                 >
-                  Haris Ahmad
+                  {process.env.NEXT_PUBLIC_AUTHOR_NAME}
                 </Box>
               </Typography>
               <Box
@@ -836,7 +839,7 @@ const profile = {
                 <Tooltip title="Visit GitHub Profile">
                   <IconButton
                     component="a"
-                    href="https://github.com/haris18896"
+                    href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub"
@@ -867,7 +870,7 @@ const profile = {
                 <Tooltip title="Connect on LinkedIn">
                   <IconButton
                     component="a"
-                    href="https://www.linkedin.com/in/haris18896"
+                    href={`https://www.linkedin.com/in/${process.env.NEXT_PUBLIC_LINKEDIN_USERNAME}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn"

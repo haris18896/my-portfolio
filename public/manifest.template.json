@@ -1,6 +1,6 @@
 {
-  "name": "Portfolio",
-  "short_name": "Portfolio",
+  "name": "__AUTHOR_NAME__ Portfolio",
+  "short_name": "__AUTHOR_NAME__",
   "icons": [
     {
       "src": "/favicon/android-chrome-192x192.png",

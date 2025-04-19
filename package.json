@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --turbopack",
+    "build": "node scripts/generate-manifest.js && next build",
     "start": "next start",
     "lint": "next lint",
     "pregit": "git status",
@@ -48,6 +48,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@react-three/eslint-plugin": "^0.1.2",
+    "dotenv": "^16.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.2"
   }

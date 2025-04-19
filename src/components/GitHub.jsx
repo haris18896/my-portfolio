@@ -109,7 +109,7 @@ function GitHub({ pinnedRepos }) {
             }}
           >
             <GitHubCalendar
-              username="haris18896"
+              username={process.env.NEXT_PUBLIC_GITHUB_USERNAME}
               colorScheme={!isClient || mode === "dark" ? "dark" : "light"}
               fontSize={12}
               blockSize={12}
@@ -127,7 +127,7 @@ function GitHub({ pinnedRepos }) {
             }}
           >
             {pinnedRepos.map((repo) => (
-              <Grid item xs={12} md={6} lg={4} key={repo.name}>
+              <Grid item xs={12} md={6} lg={4} key={repo.id}>
                 <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
                   <Link
                     href={repo.html_url}

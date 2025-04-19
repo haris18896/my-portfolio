@@ -12,7 +12,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata = {
-  title: "Haris Ahmad",
+  title: process.env.AUTHOR_NAME || "Portfolio",
   description: "A showcase of my work and skills.",
   manifest: "/manifest.json",
   icons: [

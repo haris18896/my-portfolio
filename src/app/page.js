@@ -27,10 +27,11 @@ async function fetchGitHubData() {
       "https://api.github.com/graphql",
       {
         query: `{
-          user(login: "haris18896") {
+          user(login: "${process.env.NEXT_PUBLIC_GITHUB_USERNAME}") {
             pinnedItems(first: 6, types: REPOSITORY) {
               nodes {
                 ... on Repository {
+                  id
                   name
                   description
                   url
@@ -55,6 +56,7 @@ async function fetchGitHubData() {
 
     const result = response.data;
     return result.data.user.pinnedItems.nodes.map((repo) => ({
+      id: repo.id,
       name: repo.name,
       description: repo.description,
       html_url: repo.url,

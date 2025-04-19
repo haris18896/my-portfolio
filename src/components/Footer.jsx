@@ -27,11 +27,12 @@ function Footer() {
         }}
       >
         <Typography variant="body2">
-          &copy; {new Date().getFullYear()} Haris Ahmad
+          &copy; {new Date().getFullYear()}{" "}
+          {process.env.NEXT_PUBLIC_AUTHOR_NAME}
         </Typography>
         <Box>
           <Link
-            href="https://github.com/haris18896"
+            href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME}`}
             target="_blank"
             rel="noopener"
             sx={{ mx: 1 }}
@@ -39,7 +40,7 @@ function Footer() {
             <GitHubIcon sx={{ color: "text.primary" }} />
           </Link>
           <Link
-            href="https://linkedin.com/in/haris18896"
+            href={`https://linkedin.com/in/${process.env.NEXT_PUBLIC_LINKEDIN_USERNAME}`}
             target="_blank"
             rel="noopener"
             sx={{ mx: 1 }}

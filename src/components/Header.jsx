@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 // ** Utils
@@ -48,6 +48,13 @@ const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const isMobile = useMediaQuery(muiTheme.breakpoints.down("md"));
 
+  // Auto-close drawer when transitioning from mobile to desktop
+  useEffect(() => {
+    if (!isMobile && drawerOpen) {
+      setDrawerOpen(false);
+    }
+  }, [isMobile, drawerOpen]);
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -69,8 +76,8 @@ const Header = () => {
         <Box sx={{ p: 2.5, pt: 4 }}>
           <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
             <Avatar
-              src="/images/profileImage.png"
-              alt="Haris Ahmad"
+              src={process.env.NEXT_PUBLIC_AUTHOR_IMAGE}
+              alt={process.env.NEXT_PUBLIC_AUTHOR_NAME}
               sx={{
                 width: 70,
                 height: 70,
@@ -90,10 +97,10 @@ const Header = () => {
                   letterSpacing: "0.5px",
                 }}
               >
-                Haris Ahmad
+                {process.env.NEXT_PUBLIC_AUTHOR_NAME}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                haris18896@gmail.com
+                {process.env.NEXT_PUBLIC_RECIPIENT_EMAIL}
               </Typography>
               <Typography
                 variant="caption"
@@ -211,7 +218,7 @@ const Header = () => {
                 },
               }}
             >
-              Haris Ahmad
+              {process.env.NEXT_PUBLIC_AUTHOR_NAME}
             </Typography>
 
             <Box
