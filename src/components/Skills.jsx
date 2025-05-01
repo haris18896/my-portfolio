@@ -125,10 +125,13 @@ const ExpertiseBullet = ({ text, icon }) => {
 // Skill Card Component
 const SkillCard = ({ skill, category }) => {
   const { mode } = useTheme();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+
+  const getCategoryColor = (categoryName) => {
+    const category = skillCategories.find((cat) => cat.name === categoryName);
+    return category ? category.color : "#2196f3";
+  };
 
   const getLevelColor = (level) => {
     const levels = {
@@ -148,143 +151,257 @@ const SkillCard = ({ skill, category }) => {
     const percentages = {
       Beginner: "20%",
       Novice: "30%",
-      Intermediate: "37%",
-      Competent: "55%",
-      Proficient: "67%",
-      Advanced: "73%",
-      Expert: "86%",
-      Master: "97%",
+      Intermediate: "45%",
+      Competent: "60%",
+      Proficient: "75%",
+      Advanced: "85%",
+      Expert: "92%",
+      Master: "98%",
     };
     return percentages[level] || "20%";
   };
 
-  const getCategoryColor = (categoryName) => {
-    const category = skillCategories.find((cat) => cat.name === categoryName);
-    return category ? category.color : "#2196f3";
-  };
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={itemVariants}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-    >
-      <Paper
-        elevation={2}
+  // Compact mobile design
+  if (isMobile) {
+    return (
+      <Box
         sx={{
-          py: 2,
-          pl: 2,
-          pr: 4,
-          height: "100%",
-          bgcolor:
-            mode === "dark" ? "rgba(30,30,30,0.8)" : "rgba(255,255,255,0.8)",
+          position: "relative",
+          borderRadius: 1.5,
+          bgcolor: mode === "dark" ? alpha("#1a1a1a", 0.7) : alpha("#fff", 0.8),
           backdropFilter: "blur(8px)",
-          borderRadius: 2,
-          transition: "all 0.3s ease",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          border: `1px solid ${alpha(getCategoryColor(category), 0.15)}`,
+          boxShadow: `0 2px 4px ${alpha("#000", 0.1)}`,
+          transition: "all 0.2s ease",
           "&:hover": {
-            boxShadow: `0 8px 16px ${alpha(getCategoryColor(category), 0.3)}`,
-            transform: "translateY(-1px)",
+            boxShadow: `0 4px 8px ${alpha("#000", 0.15)}`,
+          },
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: "3px",
+            background: getLevelColor(skill.level),
           },
         }}
+        onTouchStart={() => setIsHovered(true)}
+        onTouchEnd={() => setIsHovered(false)}
       >
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1.5, gap: 1 }}>
-          {skill.skill_logo && (
-            <Box
-              sx={{
-                width: 36,
-                height: 36,
-                borderRadius: "8px",
-                overflow: "hidden",
-                flexShrink: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "background.paper",
-              }}
-            >
-              <img
-                src={skill.skill_logo}
-                alt={skill.skill}
-                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                loading="lazy"
-              />
-            </Box>
-          )}
-          <Typography variant="h6" fontWeight="medium" noWrap>
-            {skill.skill}
-          </Typography>
-        </Box>
-
-        <Box sx={{ mb: 1.5 }}>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ display: "block", mb: 0.5 }}
+        {/* Logo */}
+        {skill.skill_logo && (
+          <Box
+            sx={{
+              ml: 1,
+              width: 28,
+              height: 28,
+              borderRadius: "8px",
+              overflow: "hidden",
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor:
+                mode === "dark" ? alpha("#fff", 0.05) : alpha("#000", 0.03),
+            }}
           >
-            Proficiency
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Box
-              sx={{
-                height: 8,
-                width: "100%",
-                bgcolor:
-                  mode === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
-                borderRadius: 5,
-                overflow: "hidden",
-              }}
-            >
-              <Box
-                sx={{
-                  height: "100%",
-                  width: getLevelPercentage(skill.level),
-                  bgcolor: getLevelColor(skill.level),
-                  borderRadius: 5,
-                }}
-              />
-            </Box>
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ minWidth: 30 }}
-            >
-              {skill.level}
-            </Typography>
+            <img
+              src={skill.skill_logo}
+              alt={skill.skill}
+              style={{ width: "80%", height: "80%", objectFit: "contain" }}
+              loading="lazy"
+            />
           </Box>
-        </Box>
+        )}
 
-        <Box
+        {/* Skill name */}
+        <Typography
+          variant="body2"
+          fontWeight="medium"
+          noWrap
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            ml: 1,
+            flex: 1,
           }}
         >
+          {skill.skill}
+        </Typography>
+
+        {/* Experience */}
+        <Typography
+          variant="caption"
+          sx={{
+            color: mode === "dark" ? "grey.400" : "text.secondary",
+            mx: 1,
+            fontSize: "0.65rem",
+          }}
+        >
+          {skill.experience}y
+        </Typography>
+
+        {/* Level text */}
+        <Typography
+          variant="caption"
+          sx={{
+            color: getLevelColor(skill.level),
+            fontWeight: 600,
+            mr: 1,
+            fontSize: "0.65rem",
+          }}
+        >
+          {skill.level}
+        </Typography>
+
+        {/* Level indicator */}
+        <Box
+          sx={{
+            width: 5,
+            height: 36,
+            backgroundColor: alpha(getLevelColor(skill.level), 0.2),
+            position: "relative",
+            mr: 0.5,
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              height: getLevelPercentage(skill.level),
+              backgroundColor: getLevelColor(skill.level),
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  }
+
+  // New compact desktop design (horizontal layout similar to mobile but with more info)
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        borderRadius: 2,
+        bgcolor: mode === "dark" ? alpha("#1a1a1a", 0.7) : alpha("#fff", 0.8),
+        backdropFilter: "blur(8px)",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        border: `1px solid ${alpha(getCategoryColor(category), 0.15)}`,
+        boxShadow: isHovered
+          ? `0 8px 16px ${alpha(getCategoryColor(category), 0.2)}`
+          : `0 2px 4px ${alpha("#000", 0.1)}`,
+        transition: "all 0.3s ease",
+        transform: isHovered ? "translateY(-3px)" : "none",
+        height: "100%",
+        "&:hover": {
+          borderColor: alpha(getCategoryColor(category), 0.3),
+        },
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: "4px",
+          background: getLevelColor(skill.level),
+        },
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Logo */}
+      {skill.skill_logo && (
+        <Box
+          sx={{
+            ml: 2,
+            width: 42,
+            height: 42,
+            borderRadius: "8px",
+            overflow: "hidden",
+            flexShrink: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor:
+              mode === "dark" ? alpha("#fff", 0.05) : alpha("#000", 0.03),
+            border: `1px solid ${alpha(getCategoryColor(category), 0.1)}`,
+          }}
+        >
+          <img
+            src={skill.skill_logo}
+            alt={skill.skill}
+            style={{ width: "80%", height: "80%", objectFit: "contain" }}
+            loading="lazy"
+          />
+        </Box>
+      )}
+
+      {/* Skill name and level */}
+      <Box sx={{ ml: 2, flex: 1 }}>
+        <Typography
+          variant="h6"
+          fontWeight="medium"
+          sx={{
+            fontSize: { sm: "0.95rem", md: "1rem" },
+            color: mode === "dark" ? "white" : "text.primary",
+          }}
+        >
+          {skill.skill}
+        </Typography>
+
+        <Box sx={{ display: "flex", alignItems: "center", mt: 0.5 }}>
           <Typography
             variant="caption"
-            color="text.secondary"
-            sx={{ fontStyle: "italic" }}
+            sx={{
+              color: mode === "dark" ? "grey.400" : "text.secondary",
+              mr: 1,
+            }}
           >
             {skill.experience} {skill.experience === 1 ? "year" : "years"}
           </Typography>
-          <Box
+          <Typography
+            variant="caption"
             sx={{
-              px: 1,
-              py: 0.5,
-              bgcolor: alpha(getCategoryColor(category), 0.1),
-              color: getCategoryColor(category),
-              borderRadius: 1,
-              fontSize: "0.7rem",
-              fontWeight: "medium",
+              color: getLevelColor(skill.level),
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            {category}
-          </Box>
+            • {skill.level}
+          </Typography>
         </Box>
-      </Paper>
-    </motion.div>
+      </Box>
+
+      {/* Progress bar */}
+      <Box sx={{ width: "30%", px: 2, mr: 2 }}>
+        <Box
+          sx={{
+            height: 6,
+            width: "100%",
+            bgcolor: mode === "dark" ? alpha("#fff", 0.1) : alpha("#000", 0.05),
+            borderRadius: 3,
+            overflow: "hidden",
+          }}
+        >
+          <Box
+            sx={{
+              height: "100%",
+              width: getLevelPercentage(skill.level),
+              bgcolor: getLevelColor(skill.level),
+              borderRadius: 3,
+              transition: "width 0.5s ease-in-out",
+            }}
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
@@ -295,17 +412,10 @@ const CategorySection = ({ title, icon, skills, color }) => {
     triggerOnce: true,
     threshold: 0.1,
   });
-
-  const isXs = useMediaQuery((theme) => theme.breakpoints.only("xs"));
-  const isSm = useMediaQuery((theme) => theme.breakpoints.only("sm"));
-  const isMd = useMediaQuery((theme) => theme.breakpoints.only("md"));
-
-  const cardsToShow = isXs ? 1 : isSm ? 2 : isMd ? 3 : 4;
-  const animationDuration = isXs ? 15 : isSm ? 25 : isMd ? 30 : 40;
-  const cardWidth = `${90 / cardsToShow}%`;
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   return (
-    <Box sx={{ mb: 6 }}>
+    <Box sx={{ mb: 5 }}>
       <Box
         component={motion.div}
         ref={ref}
@@ -355,42 +465,39 @@ const CategorySection = ({ title, icon, skills, color }) => {
         </Typography>
       </Box>
 
-      {/* Marquee Container */}
+      {/* Grid layout for skills */}
       <Box
         sx={{
-          position: "relative",
-          overflow: "hidden",
-          width: "100%",
-          pb: 2,
-          py: 2,
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(1, 1fr)",
+            sm: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          },
+          gap: 2,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            gap: 3,
-            animation:
-              skills.length > cardsToShow
-                ? `marquee ${animationDuration}s linear infinite`
-                : "none",
-            "@keyframes marquee": {
-              "0%": { transform: "translateX(0)" },
-              "100%": { transform: `translateX(-${skills.length * 100}%)` },
-            },
-            "& > div": {
-              minWidth: cardWidth,
-              flexShrink: 0,
-            },
-            justifyContent:
-              skills.length <= cardsToShow ? "center" : "flex-start",
-          }}
-        >
-          {skills.map((skill, index) => (
-            <Box key={`first-${skill._id || index}`}>
-              <SkillCard skill={skill} category={title} />
-            </Box>
-          ))}
-        </Box>
+        {skills.map((skill, index) => (
+          <motion.div
+            key={skill._id || index}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5,
+                  delay: index * 0.1,
+                },
+              },
+            }}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+          >
+            <SkillCard skill={skill} category={title} />
+          </motion.div>
+        ))}
       </Box>
     </Box>
   );
@@ -424,6 +531,7 @@ const Skills = ({ skills }) => {
         skillName.includes("next") ||
         skillName.includes("javascript") ||
         skillName.includes("typescript") ||
+        skillName.includes("electron js") ||
         skillName.includes("html") ||
         skillName.includes("css") ||
         skillName.includes("tailwind") ||
@@ -478,6 +586,7 @@ const Skills = ({ skills }) => {
         skillName.includes("gcp") ||
         skillName.includes("cloud") ||
         skillName.includes("docker") ||
+        skillName.includes("vercel") ||
         skillName.includes("ci/cd") ||
         skillName.includes("linux") ||
         skillName.includes("prometheus") ||
@@ -496,6 +605,7 @@ const Skills = ({ skills }) => {
         skillName.includes("firebase") ||
         skillName.includes("auth") ||
         skillName.includes("google") ||
+        skillName.includes("zoom sdk") ||
         skillName.includes("map")
       ) {
         return "Integration";
@@ -505,8 +615,9 @@ const Skills = ({ skills }) => {
       if (
         skillName.includes("pandas") ||
         skillName.includes("seaborn") ||
-        skillName.includes("matplotlib") ||
+        skillName.includes("matplotllib") ||
         skillName.includes("numpy") ||
+        skillName.includes("scipy") ||
         skillName.includes("data analytics") ||
         skillName.includes("data analysis")
       ) {
@@ -617,6 +728,7 @@ const Skills = ({ skills }) => {
       />
 
       <Container maxWidth="lg">
+        {/* Header Section */}
         <Box
           component={motion.div}
           ref={ref}
@@ -680,19 +792,63 @@ const Skills = ({ skills }) => {
           </Box>
         </Box>
 
-        {/* Skill categories */}
-        {skillCategories.map((category, index) =>
-          organizedSkills[category.name] &&
-          organizedSkills[category.name].length > 0 ? (
-            <CategorySection
-              key={category.name}
-              title={category.name}
-              icon={category.icon}
-              skills={organizedSkills[category.name]}
-              color={category.color}
-            />
-          ) : null
-        )}
+        {/* Skills Categories Section */}
+        <Box
+          component={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          sx={{
+            px: { xs: 1, sm: 2 },
+            py: 4,
+            borderRadius: 4,
+            backdropFilter: "blur(8px)",
+            backgroundColor: alpha(mode === "dark" ? "#0a0f1f" : "#fff", 0.05),
+            boxShadow: `0 10px 40px ${alpha(mode === "dark" ? "#000" : "#000", 0.1)}`,
+            border: `1px solid ${alpha(mode === "dark" ? "#fff" : "#000", 0.05)}`,
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h3"
+            fontWeight="bold"
+            textAlign="center"
+            sx={{
+              mb: 5,
+              background: `linear-gradient(45deg, ${skillCategories[0].color}, ${skillCategories[1].color})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              position: "relative",
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                bottom: -10,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "60px",
+                height: "4px",
+                borderRadius: "2px",
+                background: `linear-gradient(45deg, ${skillCategories[0].color}, ${skillCategories[1].color})`,
+              },
+            }}
+          >
+            Technical Skills
+          </Typography>
+
+          {/* Skill categories */}
+          {skillCategories.map((category, index) =>
+            organizedSkills[category.name] &&
+            organizedSkills[category.name].length > 0 ? (
+              <CategorySection
+                key={category.name}
+                title={category.name}
+                icon={category.icon}
+                skills={organizedSkills[category.name]}
+                color={category.color}
+              />
+            ) : null
+          )}
+        </Box>
       </Container>
     </Box>
   );
