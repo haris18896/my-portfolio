@@ -288,11 +288,19 @@ const Projects = ({ projects }) => {
               variant="scrollable"
               scrollButtons="auto"
               allowScrollButtonsMobile
+              centered={!isSmallScreen}
               sx={{
                 "& .MuiTabs-indicator": {
                   backgroundColor: muiTheme.palette.primary.main,
                   height: 3,
                   borderRadius: 1.5,
+                },
+                "& .MuiTabs-flexContainer": {
+                  justifyContent: isSmallScreen ? "flex-start" : "center",
+                },
+                "& .MuiTabs-root": {
+                  display: "flex",
+                  justifyContent: "center",
                 },
                 "& .MuiTab-root": {
                   textTransform: "none",
