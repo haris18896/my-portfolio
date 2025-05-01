@@ -345,7 +345,10 @@ const CodeWindow = ({ code }) => {
           zIndex: 1,
           borderRadius: "10px",
           overflow: "hidden",
-          bgcolor: mode === "dark" ? "#2d2a2e" : "#2b2b2b", // Dark background for both modes
+          bgcolor: mode === "dark" ? "#2d2a2e" : "#2b2b2b",
+          display: "flex",
+          flexDirection: "column",
+          height: { xs: "500px", sm: "550px", md: "650px" },
         }}
       >
         {/* Window Header */}
@@ -358,6 +361,7 @@ const CodeWindow = ({ code }) => {
             bgcolor: mode === "dark" ? "#403e41" : "#3a3a3a", // Dark header for both modes
             borderBottom: 1,
             borderColor: "rgba(255,255,255,0.1)",
+            flexShrink: 0,
           }}
         >
           {/* Window Dots */}
@@ -426,18 +430,33 @@ const CodeWindow = ({ code }) => {
         {/* Code Content */}
         <Box
           sx={{
-            px: 3,
+            px: 2,
             fontFamily:
               "'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, Monaco, 'Courier New', monospace",
             fontSize: "0.85rem",
             lineHeight: 1.7,
             letterSpacing: "-0.01em",
             position: "relative",
-            height: "auto",
+            height: "100%",
             overflowX: "auto",
-            overflowY: "hidden",
+            overflowY: "auto",
             whiteSpace: "pre",
-            color: "#fcfcfa", // Always light text
+            color: "#fcfcfa",
+            "&::-webkit-scrollbar": {
+              width: "1px",
+              height: "1px",
+            },
+            "&::-webkit-scrollbar-track": {
+              background: "rgba(255,255,255,0.05)",
+              borderRadius: "4px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "rgba(255,255,255,0.15)",
+              borderRadius: "4px",
+              "&:hover": {
+                background: "rgba(255,255,255,0.25)",
+              },
+            },
             // Monokai Pro inspired syntax highlighting (same for both themes)
             "& .token.punctuation": {
               color: "#939293",
@@ -468,10 +487,11 @@ const CodeWindow = ({ code }) => {
               color: "#78dce8",
             },
             "& .language-javascript": {
-              color: "#fcfcfa", // Base text color always light
+              color: "#fcfcfa",
             },
             "& pre": {
               margin: 0,
+              height: "100%",
             },
             "& code": {
               display: "inline-block",
@@ -496,28 +516,47 @@ const Hero = () => {
 
   const [code] = useState(`
 const profile = {
-    name: 'Haris Ahmad',
-    title: 'Full-Stack Developer | Mobile & Web Developer | Data Analyst',
-    skills: [
-        'Reac Native', 'NextJS', 'React JS', 'Redux',  'Express',
-        'MySQL', 'MongoDB', 'Docker', 'PostgreSQL', 'TypeScript',
-        'Material UI', 'Tailwind CSS', 'Google Map', 'SASS',
-        'Python', 'Django', 'Matplotlib', 'Seaborn', 'Pandas',
-        'Sanity', 'GraphQL', 'Git', 'Firebase', 'Stripe', 'Paypal'
+  name: 'Haris Ahmad',
+  title: 'Full-Stack Developer | Mobile & Web Developer | Data Analyst',
+  skills: {
+    frontend: [
+      'React Native', 'NextJS', 'React JS', 'Redux',
+      'Material UI', 'Tailwind CSS', 'SASS', 'Google Map',
+      'Sanity', 'TypeScript'
     ],
-    
-    hardWorker: true,
-    quickLearner: true,
-    problemSolver: true,
-    yearsOfExperience: 5, 
-    hireable: function() {
-        return (
-            this.hardWorker &&
-            this.problemSolver &&
-            this.skills.length >= 5 &&
-            this.yearsOfExperience >= 5
-        );
-    }
+  backend: [
+    'Node', 'Express', 'Socket', 'Redis', 'RabbitMQ',
+    'Mongoose', 'Prisma', 'Nest', 'Bun', 'Hono',
+    'Python', 'Django', 'GraphQL'
+  ],
+  database: [
+    'MongoDB', 'PostgreSQL', 'MySQL', 'Neon'
+  ],
+  devops: [
+    'Docker', 'Prometheus', 'Grafana', 'Git'
+  ],
+  dataAnalysis: [
+    'Pandas', 'Seaborn', 'Matplotlib'
+  ],
+  cloud_and_integration: [
+    'Firebase', 'Stripe', 'Paypal'
+  ],
+  deployment_and_distribution: [
+    'App store', 'play store'
+  ],
+},
+hardWorker: true,
+quickLearner: true,
+problemSolver: true,
+yearsOfExperience: 5,
+hireable: function() {
+    return (
+        this.hardWorker &&
+        this.problemSolver &&
+        this.skills.length >= 25 &&
+        this.yearsOfExperience >= 5
+    );
+}
 };`);
 
   const words = [

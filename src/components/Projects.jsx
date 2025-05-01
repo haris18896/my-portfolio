@@ -30,29 +30,12 @@ const Projects = ({ projects }) => {
   const muiTheme = useMuiTheme();
   const [activeProject, setActiveProject] = useState(0);
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
-  const [isHovering, setIsHovering] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const autoRotateIntervalRef = useRef(null);
 
   // Set isClient to true once component is mounted
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  // Setup auto-rotation
-  useEffect(() => {
-    if (projects && projects.length > 0 && !isHovering) {
-      autoRotateIntervalRef.current = setInterval(() => {
-        setActiveProject((prev) => (prev + 1) % projects.length);
-      }, 5000); // Change every 5 seconds (slightly longer than 2 seconds for better UX)
-    }
-
-    return () => {
-      if (autoRotateIntervalRef.current) {
-        clearInterval(autoRotateIntervalRef.current);
-      }
-    };
-  }, [projects, isHovering]);
 
   const handlePrevProject = useCallback(() => {
     if (projects && projects.length > 0) {
@@ -67,17 +50,6 @@ const Projects = ({ projects }) => {
       setActiveProject((prev) => (prev + 1) % projects.length);
     }
   }, [projects]);
-
-  const handleMouseEnter = useCallback(() => {
-    setIsHovering(true);
-    if (autoRotateIntervalRef.current) {
-      clearInterval(autoRotateIntervalRef.current);
-    }
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setIsHovering(false);
-  }, []);
 
   const handleDotClick = useCallback((index) => {
     setActiveProject(index);
@@ -334,8 +306,6 @@ const Projects = ({ projects }) => {
             height: isSmallScreen ? "auto" : 480,
             mb: 6,
           }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
         >
           <AnimatePresence mode="wait">
             {projects.map(
@@ -826,8 +796,8 @@ const Projects = ({ projects }) => {
               variant="caption"
               sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
             >
-              <ChevronLeftIcon fontSize="small" /> Swipe or use arrows to
-              navigate <ChevronRightIcon fontSize="small" />
+              <ChevronLeftIcon fontSize="small" /> Use arrows or dots to
+              navigate projects <ChevronRightIcon fontSize="small" />
             </Typography>
           </Box>
         )}
@@ -841,6 +811,7 @@ const Projects = ({ projects }) => {
             mt: isSmallScreen ? 1 : 3,
             mb: 2,
             px: 2,
+            pt: 2,
             overflow: "auto",
             maxWidth: "100%",
             scrollbarWidth: "none",
