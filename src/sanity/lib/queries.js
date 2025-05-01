@@ -29,7 +29,7 @@ export const PROJECTS_QUERY = defineQuery(`*[_type == "projects"] {
         project_name,
         project_url,
         project_description,
-        category,
+        categories,
         "project_logo": project_logo.asset->url,
         "skills": skills[]->{ skill }
       }`);

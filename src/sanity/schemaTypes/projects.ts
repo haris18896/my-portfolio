@@ -1,6 +1,17 @@
 import { defineField, defineType } from "sanity";
 import { FolderKanbanIcon } from "lucide-react";
 
+// Define categories as a constant for reuse
+const projectCategories = [
+  { title: "Frontend", value: "frontend" },
+  { title: "Backend", value: "backend" },
+  { title: "Full Stack", value: "fullstack" },
+  { title: "Mobile", value: "mobile" },
+  { title: "Data Science", value: "datascience" },
+  { title: "DevOps", value: "devops" },
+  { title: "Other", value: "other" },
+];
+
 export const projects = defineType({
   name: "projects",
   title: "Projects",
@@ -34,21 +45,19 @@ export const projects = defineType({
       validation: (Rule) => Rule.required().error("Logo is required"),
     }),
     defineField({
-      name: "category",
-      title: "Project Category",
-      type: "string",
-      options: {
-        list: [
-          { title: "Frontend", value: "frontend" },
-          { title: "Backend", value: "backend" },
-          { title: "Full Stack", value: "fullstack" },
-          { title: "Mobile", value: "mobile" },
-          { title: "Data Science", value: "datascience" },
-          { title: "DevOps", value: "devops" },
-          { title: "Other", value: "other" },
-        ],
-      },
-      validation: (Rule) => Rule.required().error("Category is required"),
+      name: "categories",
+      title: "Project Categories",
+      description: "Select one or more categories that apply to this project",
+      type: "array",
+      of: [
+        {
+          type: "string",
+          options: {
+            list: projectCategories,
+          },
+        },
+      ],
+      validation: (Rule) => Rule.required().min(1).error("At least one category is required"),
     }),
     defineField({
       name: "skills",

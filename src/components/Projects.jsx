@@ -64,7 +64,8 @@ const Projects = ({ projects }) => {
       setFilteredProjects(projects);
     } else {
       const filtered = projects.filter(
-        (project) => project.category === activeCategory
+        (project) =>
+          project.categories && project.categories.includes(activeCategory)
       );
       setFilteredProjects(filtered);
     }
@@ -725,34 +726,54 @@ const Projects = ({ projects }) => {
                                 />
 
                                 {/* Category Chip */}
-                                {project.category && (
-                                  <Chip
-                                    label={
-                                      PROJECT_CATEGORIES.find(
-                                        (cat) => cat.value === project.category
-                                      )?.label || project.category
-                                    }
-                                    size="small"
-                                    sx={{
-                                      alignSelf: "flex-start",
-                                      mb: 2,
-                                      fontWeight: 600,
-                                      borderRadius: "12px",
-                                      backgroundColor: alpha(
-                                        muiTheme.palette.primary.main,
-                                        mode === "dark" ? 0.15 : 0.1
-                                      ),
-                                      color:
-                                        mode === "dark"
-                                          ? muiTheme.palette.primary.light
-                                          : muiTheme.palette.primary.dark,
-                                      border: `1px solid ${alpha(
-                                        muiTheme.palette.primary.main,
-                                        0.2
-                                      )}`,
-                                    }}
-                                  />
-                                )}
+                                {project.categories &&
+                                  project.categories.length > 0 && (
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        flexWrap: "wrap",
+                                        gap: 1,
+                                        mb: 2,
+                                      }}
+                                    >
+                                      {project.categories.map(
+                                        (categoryValue, idx) => {
+                                          const category =
+                                            PROJECT_CATEGORIES.find(
+                                              (cat) =>
+                                                cat.value === categoryValue
+                                            );
+                                          return (
+                                            <Chip
+                                              key={idx}
+                                              label={
+                                                category?.label || categoryValue
+                                              }
+                                              size="small"
+                                              sx={{
+                                                fontWeight: 600,
+                                                borderRadius: "12px",
+                                                backgroundColor: alpha(
+                                                  muiTheme.palette.primary.main,
+                                                  mode === "dark" ? 0.15 : 0.1
+                                                ),
+                                                color:
+                                                  mode === "dark"
+                                                    ? muiTheme.palette.primary
+                                                        .light
+                                                    : muiTheme.palette.primary
+                                                        .dark,
+                                                border: `1px solid ${alpha(
+                                                  muiTheme.palette.primary.main,
+                                                  0.2
+                                                )}`,
+                                              }}
+                                            />
+                                          );
+                                        }
+                                      )}
+                                    </Box>
+                                  )}
 
                                 <Typography
                                   variant="h3"
