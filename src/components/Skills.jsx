@@ -58,14 +58,19 @@ const skillCategories = [
     color: "#4caf50",
   },
   {
+    name: "Cloud & DevOps",
+    icon: <CloudIcon sx={{ fontSize: 36 }} />,
+    color: "#ff9800",
+  },
+  {
     name: "Integration",
     icon: <PaymentsIcon sx={{ fontSize: 36 }} />,
     color: "#f44336",
   },
   {
-    name: "Cloud & DevOps",
-    icon: <CloudIcon sx={{ fontSize: 36 }} />,
-    color: "#ff9800",
+    name: "Data Analysis",
+    icon: <BarChartIcon sx={{ fontSize: 36 }} />,
+    color: "#3f51b5",
   },
 ];
 
@@ -425,7 +430,10 @@ const Skills = ({ skills }) => {
         skillName.includes("mui") ||
         skillName.includes("material") ||
         skillName.includes("redux") ||
-        skillName.includes("bootstrap")
+        skillName.includes("bootstrap") ||
+        skillName.includes("sass") ||
+        skillName.includes("google map") ||
+        skillName.includes("sanity")
       ) {
         return "Frontend";
       }
@@ -437,7 +445,16 @@ const Skills = ({ skills }) => {
         skillName.includes("django") ||
         skillName.includes("python") ||
         skillName.includes("git") ||
-        skillName.includes("github")
+        skillName.includes("github") ||
+        skillName.includes("socket") ||
+        skillName.includes("redis") ||
+        skillName.includes("rabbitmq") ||
+        skillName.includes("mongoose") ||
+        skillName.includes("prisma") ||
+        skillName.includes("nest") ||
+        skillName.includes("bun") ||
+        skillName.includes("hono") ||
+        skillName.includes("graphql")
       ) {
         return "Backend";
       }
@@ -449,7 +466,8 @@ const Skills = ({ skills }) => {
         skillName.includes("mysql") ||
         skillName.includes("mongo") ||
         skillName.includes("firebase") ||
-        skillName.includes("sanity")
+        skillName.includes("sanity") ||
+        skillName.includes("neon")
       ) {
         return "Database";
       }
@@ -457,16 +475,21 @@ const Skills = ({ skills }) => {
       // Cloud & DevOps
       if (
         skillName.includes("aws") ||
-        skillName.includes("GCP") ||
+        skillName.includes("gcp") ||
         skillName.includes("cloud") ||
         skillName.includes("docker") ||
-        skillName.includes("CI/CD") ||
-        skillName.includes("linux")
+        skillName.includes("ci/cd") ||
+        skillName.includes("linux") ||
+        skillName.includes("prometheus") ||
+        skillName.includes("grafana") ||
+        skillName.includes("git") ||
+        skillName.includes("app store") ||
+        skillName.includes("play store")
       ) {
         return "Cloud & DevOps";
       }
 
-      // Integration
+      // Integration & Data Analysis
       if (
         skillName.includes("stripe") ||
         skillName.includes("paypal") ||
@@ -476,6 +499,18 @@ const Skills = ({ skills }) => {
         skillName.includes("map")
       ) {
         return "Integration";
+      }
+
+      // Data Analysis
+      if (
+        skillName.includes("pandas") ||
+        skillName.includes("seaborn") ||
+        skillName.includes("matplotlib") ||
+        skillName.includes("numpy") ||
+        skillName.includes("data analytics") ||
+        skillName.includes("data analysis")
+      ) {
+        return "Data Analysis";
       }
 
       // Default category for uncategorized skills
@@ -509,33 +544,32 @@ const Skills = ({ skills }) => {
       icon: <DevicesIcon sx={{ fontSize: 22 }} />,
     },
     {
-      text: "Building robust and scalable backend systems with Django REST Framework and Node.js.",
+      text: "Building robust and scalable backend systems with Node.js, Express, Django, and GraphQL.",
       icon: <CodeIcon sx={{ fontSize: 22 }} />,
     },
-
     {
-      text: "Implementing real-time communication using WebSockets, Django ASGI, and Socket.io.",
+      text: "Implementing real-time communication using WebSockets, Socket.io, and integration with Redis/RabbitMQ.",
       icon: <CloudIcon sx={{ fontSize: 22 }} />,
     },
     {
-      text: "Integrating third-party services such as Firebase, Stripe, PayPal, and Twilio for seamless functionality.",
+      text: "Integrating third-party services such as Firebase, Stripe, PayPal, and Google Maps for enhanced functionality.",
       icon: <PaymentsIcon sx={{ fontSize: 22 }} />,
     },
     {
-      text: "Containerizing applications with Docker and setting up CI/CD pipelines using GitHub Actions.",
-      icon: <ShoppingCartIcon sx={{ fontSize: 22 }} />,
+      text: "DevOps expertise with Docker, Prometheus, Grafana, and CI/CD pipelines using GitHub Actions.",
+      icon: <CloudIcon sx={{ fontSize: 22 }} />,
     },
     {
-      text: "Enhancing data analytics with Pandas, NumPy, Seaborn, and Matplotlib.",
+      text: "Data analysis and visualization with Pandas, NumPy, Seaborn, and Matplotlib.",
       icon: <BarChartIcon sx={{ fontSize: 22 }} />,
     },
     {
-      text: "Developing audio processing and signal analysis solutions using Python and React Native.",
-      icon: <GraphicEqIcon sx={{ fontSize: 22 }} />,
+      text: "Advanced database design and optimization with MongoDB, PostgreSQL, MySQL, and modern solutions like Neon.",
+      icon: <StorageIcon sx={{ fontSize: 22 }} />,
     },
     {
-      text: "Designing and optimizing custom databases with PostgreSQL, MySQL, and MongoDB, including DB normalization and ER diagrams.",
-      icon: <StorageIcon sx={{ fontSize: 22 }} />,
+      text: "Mobile app development and deployment to Apple App Store and Google Play Store.",
+      icon: <DevicesIcon sx={{ fontSize: 22 }} />,
     },
   ];
 
