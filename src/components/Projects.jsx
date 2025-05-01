@@ -40,6 +40,7 @@ const PROJECT_CATEGORIES = [
 ];
 
 const Projects = ({ projects }) => {
+  console.log("projects : ", JSON.stringify(projects[2]));
   const { mode } = useTheme();
   const muiTheme = useMuiTheme();
   const [activeProject, setActiveProject] = useState(0);
@@ -282,56 +283,54 @@ const Projects = ({ projects }) => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Tabs
-              value={activeCategory}
-              onChange={handleCategoryChange}
-              variant="scrollable"
-              scrollButtons="auto"
-              allowScrollButtonsMobile
-              centered={!isSmallScreen}
-              sx={{
-                "& .MuiTabs-indicator": {
-                  backgroundColor: muiTheme.palette.primary.main,
-                  height: 3,
-                  borderRadius: 1.5,
-                },
-                "& .MuiTabs-flexContainer": {
-                  justifyContent: isSmallScreen ? "flex-start" : "center",
-                },
-                "& .MuiTabs-root": {
-                  display: "flex",
-                  justifyContent: "center",
-                },
-                "& .MuiTab-root": {
-                  textTransform: "none",
-                  fontWeight: 600,
-                  minWidth: 100,
-                  color: mode === "dark" ? "grey.400" : "grey.700",
-                  "&.Mui-selected": {
-                    color:
-                      mode === "dark"
-                        ? muiTheme.palette.primary.light
-                        : muiTheme.palette.primary.main,
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Tabs
+                value={activeCategory}
+                onChange={handleCategoryChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                sx={{
+                  maxWidth: "100%",
+                  "& .MuiTabs-indicator": {
+                    backgroundColor: muiTheme.palette.primary.main,
+                    height: 3,
+                    borderRadius: 1.5,
                   },
-                  "&:hover": {
-                    color:
-                      mode === "dark"
-                        ? muiTheme.palette.primary.light
-                        : muiTheme.palette.primary.main,
-                    opacity: 0.8,
+                  "& .MuiTabs-flexContainer": {
+                    justifyContent: isSmallScreen ? "flex-start" : "center",
                   },
-                },
-              }}
-            >
-              {PROJECT_CATEGORIES.map((category) => (
-                <Tab
-                  key={category.value}
-                  label={category.label}
-                  value={category.value}
-                  disableRipple
-                />
-              ))}
-            </Tabs>
+                  "& .MuiTab-root": {
+                    textTransform: "none",
+                    fontWeight: 600,
+                    minWidth: 100,
+                    color: mode === "dark" ? "grey.400" : "grey.700",
+                    "&.Mui-selected": {
+                      color:
+                        mode === "dark"
+                          ? muiTheme.palette.primary.light
+                          : muiTheme.palette.primary.main,
+                    },
+                    "&:hover": {
+                      color:
+                        mode === "dark"
+                          ? muiTheme.palette.primary.light
+                          : muiTheme.palette.primary.main,
+                      opacity: 0.8,
+                    },
+                  },
+                }}
+              >
+                {PROJECT_CATEGORIES.map((category) => (
+                  <Tab
+                    key={category.value}
+                    label={category.label}
+                    value={category.value}
+                    disableRipple
+                  />
+                ))}
+              </Tabs>
+            </Box>
           </motion.div>
         </Box>
 
