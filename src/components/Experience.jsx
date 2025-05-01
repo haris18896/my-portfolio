@@ -404,9 +404,10 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
                   className="skill-tooltip"
                   sx={{
                     position: "absolute",
-                    bottom: -30,
+                    bottom: "auto",
+                    top: -35,
                     left: "50%",
-                    transform: "translateX(-50%) translateY(5px)",
+                    transform: "translateX(-50%) translateY(0)",
                     backgroundColor: isDark
                       ? "rgba(0, 0, 0, 0.85)"
                       : "rgba(255, 255, 255, 0.95)",
@@ -418,13 +419,24 @@ const ExperienceCard = ({ experience, isDark, skills }) => {
                       "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
                     whiteSpace: "nowrap",
                     boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
-                    zIndex: 10,
+                    zIndex: 10000,
                     pointerEvents: "none",
                     border: `1px solid ${alpha(muiTheme.palette.primary.main, 0.2)}`,
                     "& span": {
                       fontSize: "0.75rem",
                       color: isDark ? "white" : "black",
                       fontWeight: 500,
+                    },
+                    "&::after": {
+                      content: '""',
+                      position: "absolute",
+                      top: "100%",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      border: "4px solid transparent",
+                      borderTopColor: isDark
+                        ? "rgba(0, 0, 0, 0.85)"
+                        : "rgba(255, 255, 255, 0.95)",
                     },
                   }}
                 >
