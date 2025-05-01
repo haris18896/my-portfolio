@@ -40,7 +40,6 @@ const PROJECT_CATEGORIES = [
 ];
 
 const Projects = ({ projects }) => {
-  console.log("projects : ", JSON.stringify(projects[2]));
   const { mode } = useTheme();
   const muiTheme = useMuiTheme();
   const [activeProject, setActiveProject] = useState(0);
